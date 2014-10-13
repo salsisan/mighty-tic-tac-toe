@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mighty_Tick_Tac_Toe
 {
-    enum MoveState
+    public enum MoveState
     {
         ERROR_CELL_FULL,
         ERROR_WRONG_TURN,
@@ -44,6 +44,9 @@ namespace Mighty_Tick_Tac_Toe
                 return MoveState.ERROR_BAD_COORDS;
 
             Cells[Bc, Br, Cc, Cr] = player;
+            NextPlayer *= -1;
+            NextBoardCol = Cc;
+            NextBoardRow = Cr;
 
             if (Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 0, 2] == player * 3 ||
                 Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 1, 2] == player * 3 ||
