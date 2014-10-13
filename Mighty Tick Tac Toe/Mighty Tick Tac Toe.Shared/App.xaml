@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="Mighty_Tick_Tac_Toe.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Mighty_Tick_Tac_Toe">
+
+</Application>
