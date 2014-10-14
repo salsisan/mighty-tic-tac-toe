@@ -26,7 +26,7 @@ namespace Mighty_Tick_Tac_Toe
         int[,] Boards = new int[3, 3];
         int[, , ,] Cells = new int[3, 3, 3, 3];
         int NextPlayer = 1;
-        int NextBoardCol = -1;
+        public int NextBoardCol = -1;
         int NextBoardRow = -1;
 
         public bool IsSuccess(MoveState state)
