@@ -35,6 +35,5 @@
             </Grid.ColumnDefinitions>
         </Grid>
         <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="19,393,0,-178" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top" Width="308" Height="135"/>
-        <Image HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100" Source="Assets/o.png"/>
     </Grid>
 </Page>

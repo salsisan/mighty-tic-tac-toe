@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
@@ -27,7 +29,7 @@ namespace Mighty_Tick_Tac_Toe
         GameEngine game = new GameEngine();
         Dictionary<UIElement, List<int>> elementToCell = new Dictionary<UIElement, List<int>>();
         Dictionary<List<int>, UIElement> cellToElement = new Dictionary<List<int>, UIElement>();
-        Rectangle[,] rects = new Rectangle[9,9];
+        Rectangle[,] rects = new Rectangle[9, 9];
         Border[,] borders = new Border[9, 9];
 
         int currentPlayer = 1;
@@ -95,6 +97,72 @@ namespace Mighty_Tick_Tac_Toe
 
         }
 
+        void FillCell(int row, int col, string c, double height, double width)
+        {
+            c = c.ToLower();
+            if (c != "x" && c != "o")
+            {
+                StatusText.Text = "Wrong fill character: " + c;
+                return;
+            }
+            var img = new Image();
+            string path;
+            path = "ms-appx:///Assets/" + c + ".png";
+            img.Source = new BitmapImage(new Uri(this.BaseUri, path));
+            img.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
+            img.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
+            img.Height = height;
+            img.Width = width;
+            img.Stretch = Stretch.UniformToFill;
+            img.Tapped += CellTapped;
+            Canvas.SetZIndex(img, 0);
+
+            GameGrid.Children.Add(img);
+            Grid.SetRow(img, row);
+            Grid.SetColumn(img, col);
+
+            // animation
+            img.RenderTransform = new ScaleTransform();
+            Storyboard sb = new Storyboard();
+            DoubleAnimation scalex = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.7)
+            };
+            DoubleAnimation scaley = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(0.7)
+            };
+            DoubleAnimation movex = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.7)
+            };
+            DoubleAnimation movey = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.7)
+            };
+            sb.Children.Add(scalex);
+            sb.Children.Add(scaley);
+            //sb.Children.Add(movex);
+            //sb.Children.Add(movey);
+            Storyboard.SetTargetProperty(scalex, "(Image.RenderTransform).(ScaleTransform.ScaleX)");
+            Storyboard.SetTargetProperty(scaley, "(Image.RenderTransform).(ScaleTransform.ScaleY)");
+            //Storyboard.SetTargetProperty(movex, "(Image.RenderTransform).(TranslateTransform.X)");
+            //Storyboard.SetTargetProperty(movey, "(Image.RenderTransform).(TranslateTransform.Y)");
+            Storyboard.SetTarget(scalex, img);
+            Storyboard.SetTarget(scaley, img);
+            //Storyboard.SetTarget(movex, img);
+            //Storyboard.SetTarget(movey, img);
+            sb.Begin();
+        }
+
         void CellTapped(object sender, TappedRoutedEventArgs args)
         {
             int gr = Grid.GetRow(sender as Rectangle);
@@ -145,11 +213,13 @@ namespace Mighty_Tick_Tac_Toe
 
             StatusText.Text = result.ToString();
 
-            switch(result)
+            switch (result)
             {
                 case MoveState.SUCCESS_GAME_ON:
 
-                    rects[gr, gc].Fill = (currentPlayer == 1) ? new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
+                    FillCell(gr, gc, currentPlayer == 1 ? "X" : "O", (sender as Rectangle).Height, (sender as Rectangle).Width);
+                    GameGrid.Children.Remove(sender as Rectangle);
+                    //rects[gr, gc].Fill = (currentPlayer == 1) ? new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)) : new SolidColorBrush(Color.FromArgb(255, 0, 255, 0));
                     break;
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_ON:
