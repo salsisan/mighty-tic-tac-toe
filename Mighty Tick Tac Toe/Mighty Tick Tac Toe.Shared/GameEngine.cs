@@ -24,11 +24,16 @@ namespace Mighty_Tick_Tac_Toe
     public class GameEngine
     {
         int[,] Boards = new int[3, 3];
-        int[,,,] Cells = new int[3, 3, 3, 3];
+        int[, , ,] Cells = new int[3, 3, 3, 3];
         int NextPlayer = 1;
         int NextBoardCol = -1;
         int NextBoardRow = -1;
-        
+
+        public bool IsSuccess(MoveState state)
+        {
+            return state >= MoveState.SUCCESS_GAME_ON;
+        }
+
         public MoveState PlayMove(int player, int Bc, int Br, int Cc, int Cr)
         {
             if (player != NextPlayer)
@@ -105,16 +110,16 @@ namespace Mighty_Tick_Tac_Toe
 
         private int CheckBoards()
         {
-            if (Boards[0,0] + Boards[0,1] + Boards[0,2] == 3 ||
-                Boards[1,0] + Boards[1,1] + Boards[1,2] == 3 ||
-                Boards[2,0] + Boards[2,1] + Boards[2,2] == 3 ||
-                Boards[0,0] + Boards[1,0] + Boards[2,0] == 3 ||
-                Boards[0,1] + Boards[1,1] + Boards[2,1] == 3 ||
-                Boards[0,2] + Boards[1,2] + Boards[2,2] == 3 ||
-                Boards[0,0] + Boards[1,1] + Boards[2,2] == 3 ||
-                Boards[0,2] + Boards[1,1] + Boards[2,0] == 3 
+            if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] == 3 ||
+                Boards[1, 0] + Boards[1, 1] + Boards[1, 2] == 3 ||
+                Boards[2, 0] + Boards[2, 1] + Boards[2, 2] == 3 ||
+                Boards[0, 0] + Boards[1, 0] + Boards[2, 0] == 3 ||
+                Boards[0, 1] + Boards[1, 1] + Boards[2, 1] == 3 ||
+                Boards[0, 2] + Boards[1, 2] + Boards[2, 2] == 3 ||
+                Boards[0, 0] + Boards[1, 1] + Boards[2, 2] == 3 ||
+                Boards[0, 2] + Boards[1, 1] + Boards[2, 0] == 3
                 )
-            return 1;
+                return 1;
 
             if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] == -3 ||
                 Boards[1, 0] + Boards[1, 1] + Boards[1, 2] == -3 ||
@@ -126,10 +131,10 @@ namespace Mighty_Tick_Tac_Toe
                 Boards[0, 2] + Boards[1, 1] + Boards[2, 0] == -3
                 )
                 return -1;
-            
+
             bool isDraw = true;
 
-            foreach(int i in Boards)
+            foreach (int i in Boards)
             {
                 if (i == 0)
                 {
@@ -140,7 +145,7 @@ namespace Mighty_Tick_Tac_Toe
 
             if (isDraw)
                 return 2;
-            else 
+            else
                 return 0;
         }
     }

@@ -8,28 +8,16 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Margin="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="350">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Border BorderBrush="White" BorderThickness="4" Grid.Row="0" Grid.Column="0" />
-        <Border BorderBrush="White" BorderThickness="0,4,4,4" Grid.Row="0" Grid.Column="1" />
-        <Border BorderBrush="White" BorderThickness="0,4,4,4" Grid.Row="0" Grid.Column="2" />
-        <Border BorderBrush="White" BorderThickness="4,0,4,4" Grid.Row="1" Grid.Column="0" />
-        <Border BorderBrush="White" BorderThickness="0,0,4,4" Grid.Row="1" Grid.Column="1" />
-        <Border BorderBrush="White" BorderThickness="0,0,4,4" Grid.Row="1" Grid.Column="2" />
-        <Border BorderBrush="White" BorderThickness="4,0,4,4" Grid.Row="2" Grid.Column="0" />
-        <Border BorderBrush="White" BorderThickness="0,0,4,4" Grid.Row="2" Grid.Column="1" />
-        <Border BorderBrush="White" BorderThickness="0,0,4,4" Grid.Row="2" Grid.Column="2" />
-        <Grid Grid.Row="0" Grid.Column="0">
+    <Grid Margin="20" Height="350" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Transparent">
+        <Border BorderBrush="White" BorderThickness="2,2,2,2" Grid.Row="2" Grid.Column="2" Canvas.ZIndex="1"  />
+        <Grid Name="GameGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
             <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -38,8 +26,14 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border BorderBrush="Gray" BorderThickness="0, 0, 2, 2" Grid.Row="0" Grid.Column="0" />
         </Grid>
+        <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="130,414,0,-97" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top"/>
     </Grid>
 </Page>
