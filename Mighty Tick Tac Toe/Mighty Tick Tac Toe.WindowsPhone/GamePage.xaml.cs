@@ -110,10 +110,8 @@ namespace Mighty_Tick_Tac_Toe
                 currentPlayer *= -1;
                 // highlight the next board
             }
-            else
-            {
-                StatusText.Text = "Error: " + result;
-            }
+
+            StatusText.Text = "Error: " + result.ToString();
         }
     }
 }

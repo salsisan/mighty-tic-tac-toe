@@ -16,5 +16,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)GameEngine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GreedyAI1.cs" />
   </ItemGroup>
 </Project>

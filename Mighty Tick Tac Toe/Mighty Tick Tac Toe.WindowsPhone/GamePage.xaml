@@ -34,6 +34,6 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
         </Grid>
-        <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="130,414,0,-97" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top"/>
+        <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="19,393,0,-178" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top" Width="308" Height="135"/>
     </Grid>
 </Page>

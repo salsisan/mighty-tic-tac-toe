@@ -50,8 +50,17 @@ namespace Mighty_Tick_Tac_Toe
 
             Cells[Bc, Br, Cc, Cr] = player;
             NextPlayer *= -1;
-            NextBoardCol = Cc;
-            NextBoardRow = Cr;
+
+            if(Boards[Cc,Cr] == 0)
+            {
+                NextBoardCol = Cc;
+                NextBoardRow = Cr;
+            }
+            else
+            {
+                NextBoardCol = -1;
+                NextBoardRow = -1;
+            }
 
             if (Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 0, 2] == player * 3 ||
                 Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 1, 2] == player * 3 ||
@@ -64,12 +73,32 @@ namespace Mighty_Tick_Tac_Toe
                 )
             {
                 Boards[Bc, Br] = player;
+
+                if (Boards[Cc, Cr] == 0)
+                {
+                    NextBoardCol = Cc;
+                    NextBoardRow = Cr;
+                }
+                else
+                {
+                    NextBoardCol = -1;
+                    NextBoardRow = -1;
+                }
+
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Cells[Bc, Br, i, j] = player;
+                    }
+                }
+
                 int boardResult = CheckBoards();
                 if (boardResult == player)
                 {
                     return MoveState.SUCCESS_BOARD_WON_GAME_WON;
                 }
-                else if (boardResult == 2)
+                else if (boardResult == 20)
                 {
                     return MoveState.SUCCESS_BOARD_WON_GAME_DRAW;
                 }
@@ -93,9 +122,30 @@ namespace Mighty_Tick_Tac_Toe
 
             if (drawBoard)
             {
+                Boards[Bc, Br] = 20;
+
+                if (Boards[Cc, Cr] == 0)
+                {
+                    NextBoardCol = Cc;
+                    NextBoardRow = Cr;
+                }
+                else
+                {
+                    NextBoardCol = -1;
+                    NextBoardRow = -1;
+                }
+
                 int boardResult = CheckBoards();
 
-                if (boardResult == 2)
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        Cells[Bc, Br, i, j] = 20;
+                    }
+                }
+
+                if (boardResult == 20)
                 {
                     return MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW;
                 }
@@ -144,7 +194,7 @@ namespace Mighty_Tick_Tac_Toe
             }
 
             if (isDraw)
-                return 2;
+                return 20;
             else
                 return 0;
         }
