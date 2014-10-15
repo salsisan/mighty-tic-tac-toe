@@ -34,12 +34,15 @@ namespace Mighty_Tick_Tac_Toe
         Border[,] borders = new Border[9, 9];
         double cellHeight = 0, cellWidth = 0;
         double imgHeight = 0, imgWidth = 0;
+        double yourTurnImgWidth = 110, yourTurnImgHeight = 40;
         double appMargin = 20;
         int rows = 9, cols = 9;
         double imgToCellPerc = 0.8;
         double inAnimationDurationSec = 0.4;
         EasingFunctionBase easingFunc = new BackEase();
         List<Storyboard> flashStoryboards = new List<Storyboard>();
+        string xturnSrc = "Assets/xturn.png";
+        string oturnSrc = "Assets/oturn.png";
 
         enum GameColor
         {
@@ -236,6 +239,9 @@ namespace Mighty_Tick_Tac_Toe
                         sb.Stop();
                 }
 
+                // display turn tip for the *next* player
+                AnimateYourTurn();
+
                 if (game.NextBoardCol == -1)
                 {
                     for (int i = 0; i < 9; i++)
@@ -334,6 +340,60 @@ namespace Mighty_Tick_Tac_Toe
             Storyboard.SetTargetProperty(opacityAnim, "Opacity");
             flashStoryboard.Begin();
             flashStoryboards.Add(flashStoryboard);
+        }
+
+        void AnimateYourTurn()
+        {
+            TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
+
+            // animation
+            TurnImg.RenderTransform = new CompositeTransform();
+            Storyboard sb = new Storyboard();
+            DoubleAnimation scalex = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
+                EasingFunction = easingFunc
+            };
+            DoubleAnimation scaley = new DoubleAnimation()
+            {
+                From = 0,
+                To = 1,
+                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
+                EasingFunction = easingFunc
+            };
+            DoubleAnimation movex = new DoubleAnimation()
+            {
+                // move from the center of the cell to its left
+                From = 0.5 * yourTurnImgWidth,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
+                EasingFunction = easingFunc
+            };
+            DoubleAnimation movey = new DoubleAnimation()
+            {
+                // move from the center of the cell to its top
+                From = 0.5 * yourTurnImgHeight,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
+                EasingFunction = easingFunc
+            };
+            sb.Children.Add(scalex);
+            sb.Children.Add(scaley);
+            Storyboard.SetTargetProperty(scalex, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
+            Storyboard.SetTargetProperty(scaley, "(UIElement.RenderTransform).(ScaleTransform.ScaleY)");
+            Storyboard.SetTarget(scalex, TurnImg);
+            Storyboard.SetTarget(scaley, TurnImg);
+
+            sb.Children.Add(movex);
+            sb.Children.Add(movey);
+            Storyboard.SetTargetProperty(movex, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
+            Storyboard.SetTargetProperty(movey, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
+            Storyboard.SetTarget(movex, TurnImg);
+            Storyboard.SetTarget(movey, TurnImg);
+
+            sb.Begin();
         }
     }
 }

@@ -8,9 +8,14 @@
     mc:Ignorable="d"
     Background="White">
 
-    <Grid Margin="20" Height="350" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Transparent">
-        <Border BorderBrush="White" BorderThickness="2,2,2,2" Grid.Row="2" Grid.Column="2" Canvas.ZIndex="1"  />
-        <Grid Name="GameGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <Grid Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="350" />
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="White" Height="350" Grid.Row="0" BorderThickness="2,2,2,2" Grid.Column="2" Canvas.ZIndex="1"  />
+        <Grid Name="GameGrid" Height="350" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -34,6 +39,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
         </Grid>
-        <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="19,393,0,-178" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top" Width="308" Height="135"/>
+        <Image Name="TurnImg" Source="Assets/xturn.png" Grid.Row="1" Height="40" Width="110" />
+        <TextBox Name="StatusText" Grid.Row="2" Background="Black" Foreground="White" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Bottom" Width="360" Height="40"/>
     </Grid>
 </Page>
