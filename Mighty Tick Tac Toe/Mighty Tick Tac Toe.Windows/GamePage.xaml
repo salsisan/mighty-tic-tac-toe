@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="White">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Margin="20" Height="350" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Transparent">
         <Border BorderBrush="White" BorderThickness="2,2,2,2" Grid.Row="2" Grid.Column="2" Canvas.ZIndex="1"  />
