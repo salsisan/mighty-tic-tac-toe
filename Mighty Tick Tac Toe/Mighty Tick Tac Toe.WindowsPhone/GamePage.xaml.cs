@@ -21,6 +21,11 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Mighty_Tick_Tac_Toe
 {
+    enum GameMode
+    {
+        TwoPlayer,
+        AI_LVL_1
+    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -43,6 +48,7 @@ namespace Mighty_Tick_Tac_Toe
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
+        GameMode gameMode = GameMode.AI_LVL_1;
 
         enum GameColor
         {
@@ -228,6 +234,12 @@ namespace Mighty_Tick_Tac_Toe
             int cc = gc % 3;
 
             int player = currentPlayer;
+
+            PlayMove(gc, gr, bc, br, cc, cr, true);
+        }
+            void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman )
+        {
+
             var result = game.PlayMove(currentPlayer, bc, br, cc, cr);
 
             if (result >= MoveState.SUCCESS_GAME_ON)
@@ -316,9 +328,20 @@ namespace Mighty_Tick_Tac_Toe
 
             }
 
-            if (game.IsSuccess(result))
+            if (game.IsSuccessAndGameON(result))
             {
                 currentPlayer *= -1;
+
+                if (isHuman && gameMode == GameMode.AI_LVL_1)
+                {
+                    int Cc, Cr;
+                    GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr);
+
+                    if (cc != -1)
+                    {
+                        PlayMove(cc * 3 + Cc, cr * 3 + Cr, cc, cr, Cc, Cr, false);
+                    }
+                }
             }
         }
 

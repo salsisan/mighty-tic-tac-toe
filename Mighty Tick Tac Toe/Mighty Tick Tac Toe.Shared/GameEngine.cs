@@ -12,6 +12,7 @@ namespace Mighty_Tick_Tac_Toe
         ERROR_WRONG_TURN,
         ERROR_WRONG_BOARD,
         ERROR_BAD_COORDS,
+        ERROR_GAME_FINISHED,
 
         SUCCESS_GAME_ON,
         SUCCESS_BOARD_WON_GAME_ON,
@@ -24,18 +25,26 @@ namespace Mighty_Tick_Tac_Toe
     public class GameEngine
     {
         int[,] Boards = new int[3, 3];
-        int[, , ,] Cells = new int[3, 3, 3, 3];
+        public int[, , ,] Cells = new int[3, 3, 3, 3];
         int NextPlayer = 1;
         public int NextBoardCol = -1;
         int NextBoardRow = -1;
+        Boolean gameFinished = false;
 
         public bool IsSuccess(MoveState state)
         {
             return state >= MoveState.SUCCESS_GAME_ON;
         }
+        public bool IsSuccessAndGameON(MoveState state)
+        {
+            return (state == MoveState.SUCCESS_GAME_ON || state == MoveState.SUCCESS_BOARD_DRAW_GAME_ON || state == MoveState.SUCCESS_BOARD_WON_GAME_ON);
+        }
 
         public MoveState PlayMove(int player, int Bc, int Br, int Cc, int Cr)
         {
+            if (gameFinished)
+                return MoveState.ERROR_GAME_FINISHED;
+
             if (player != NextPlayer)
                 return MoveState.ERROR_WRONG_TURN;
 
@@ -96,10 +105,12 @@ namespace Mighty_Tick_Tac_Toe
                 int boardResult = CheckBoards();
                 if (boardResult == player)
                 {
+                    gameFinished = true;
                     return MoveState.SUCCESS_BOARD_WON_GAME_WON;
                 }
                 else if (boardResult == 20)
                 {
+                    gameFinished = true;
                     return MoveState.SUCCESS_BOARD_WON_GAME_DRAW;
                 }
                 else
@@ -147,10 +158,12 @@ namespace Mighty_Tick_Tac_Toe
 
                 if (boardResult == 20)
                 {
+                    gameFinished = true;
                     return MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW;
                 }
                 else
                 {
+                    gameFinished = true;
                     return MoveState.SUCCESS_BOARD_DRAW_GAME_ON;
                 }
             }

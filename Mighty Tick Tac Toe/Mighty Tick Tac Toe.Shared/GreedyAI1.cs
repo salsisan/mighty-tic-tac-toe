@@ -6,7 +6,15 @@ namespace Mighty_Tick_Tac_Toe
 {
     class GreedyAI1
     {
-        public void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age)
+        public static void Play(GameEngine ge,int player, ref int Bc, ref int Br, out int Cc, out int Cr)
+        {
+            int winner;
+            int age;
+
+            Play(ge.Cells, player, ref Bc, ref Br, out Cc, out Cr, out winner, out age);
+
+        }
+        public static void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age)
         {
             if (Bc == -1)
             {
@@ -22,11 +30,17 @@ namespace Mighty_Tick_Tac_Toe
             }
 
             PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
+            if (Cc == -1)
+            {
+                ChooseBoardToPlay(Cells, player, ref Bc, ref Br);
+                PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
+            }
+
             winner = 0;
             age = 1;
         }
 
-        private void PlayRandomMove(int[, , ,] Cells, int Bc, int Br, out int Cc, out int Cr)
+        private static void PlayRandomMove(int[, , ,] Cells, int Bc, int Br, out int Cc, out int Cr)
         {
             List<int> CellCol = new List<int>();
             List<int> CellRow = new List<int>();
@@ -56,7 +70,7 @@ namespace Mighty_Tick_Tac_Toe
             Cr = CellRow[index];
         }
 
-        private void ChooseBoardToPlay(int[, , ,] Cells, int player, ref int Bc, ref int Br)
+        private static void ChooseBoardToPlay(int[, , ,] Cells, int player, ref int Bc, ref int Br)
         {
             Bc = -1;
             Br = -1;
