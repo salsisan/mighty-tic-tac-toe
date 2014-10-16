@@ -98,6 +98,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\greeting_awesome.png" />
+    <Content Include="Assets\greeting_goodjob.png" />
+    <Content Include="Assets\greeting_nicework.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\o.png" />
     <Content Include="Assets\oturn.png" />
