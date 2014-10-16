@@ -150,6 +150,15 @@ namespace Mighty_Tick_Tac_Toe
 
         void FillCell(int row, int col, string c)
         {
+            if (row > 2)
+                row++;
+            if (row > 6)
+                row++;
+
+            if (col > 2)
+                col++;
+            if (col > 6)
+                col++;
             c = c.ToLower();
             if (c != "x" && c != "o")
             {
@@ -269,8 +278,6 @@ namespace Mighty_Tick_Tac_Toe
 
             int player = currentPlayer;
 
-            gr = Grid.GetRow(sender as FrameworkElement);
-            gc = Grid.GetColumn(sender as FrameworkElement);
             PlayMove(gc, gr, bc, br, cc, cr, true);
         }
 
