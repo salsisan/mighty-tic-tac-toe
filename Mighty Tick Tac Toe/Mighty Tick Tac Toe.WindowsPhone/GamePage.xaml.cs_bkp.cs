@@ -22,12 +22,6 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Mighty_Tick_Tac_Toe
 {
-    enum GameMode
-    {
-        TwoPlayer,
-        AI_LVL_1,
-        AI_LVL_2
-    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -50,7 +44,6 @@ namespace Mighty_Tick_Tac_Toe
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
-        GameMode gameMode = GameMode.TwoPlayer;
         int greetingImgWidth = 175;
         int greetingImgHeight = 58;
         double greetingDurationSec = 2;
@@ -268,15 +261,6 @@ namespace Mighty_Tick_Tac_Toe
             int cc = gc % 3;
 
             int player = currentPlayer;
-
-            gr = Grid.GetRow(sender as FrameworkElement);
-            gc = Grid.GetColumn(sender as FrameworkElement);
-            PlayMove(gc, gr, bc, br, cc, cr, true);
-        }
-
-        void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
-        {
-
             var result = game.PlayMove(currentPlayer, bc, br, cc, cr);
 
             if (result >= MoveState.SUCCESS_GAME_ON)
@@ -332,6 +316,8 @@ namespace Mighty_Tick_Tac_Toe
             {
                 // put an X/O
                 // get original cell coords first
+                gr = Grid.GetRow(sender as FrameworkElement);
+                gc = Grid.GetColumn(sender as FrameworkElement);
                 FillCell(gr, gc, currentPlayer == 1 ? "X" : "O");
             }
 
@@ -374,33 +360,9 @@ namespace Mighty_Tick_Tac_Toe
 
             }
 
-            if (game.IsSuccessAndGameON(result))
+            if (game.IsSuccess(result))
             {
                 currentPlayer *= -1;
-
-                if (isHuman && gameMode > GameMode.TwoPlayer)
-                {
-                    int Cc, Cr;
-
-                    switch (gameMode)
-                    {
-                        case GameMode.AI_LVL_1:
-                            GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 1);
-                            break;
-                        case GameMode.AI_LVL_2:
-                            GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 2);
-                            break;
-                        default:
-                            Cc = -1;
-                            Cr = -1;
-                            break;
-                    }
-
-                    if (cc != -1)
-                    {
-                        PlayMove(cc * 3 + Cc, cr * 3 + Cr, cc, cr, Cc, Cr, false);
-                    }
-                }
             }
         }
 
