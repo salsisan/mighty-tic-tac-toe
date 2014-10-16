@@ -269,8 +269,11 @@ namespace Mighty_Tick_Tac_Toe
 
             int player = currentPlayer;
 
+            gr = Grid.GetRow(sender as FrameworkElement);
+            gc = Grid.GetColumn(sender as FrameworkElement);
             PlayMove(gc, gr, bc, br, cc, cr, true);
         }
+
             void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman )
         {
 
@@ -329,8 +332,6 @@ namespace Mighty_Tick_Tac_Toe
             {
                 // put an X/O
                 // get original cell coords first
-                gr = Grid.GetRow(sender as FrameworkElement);
-                gc = Grid.GetColumn(sender as FrameworkElement);
                 FillCell(gr, gc, currentPlayer == 1 ? "X" : "O");
             }
 
