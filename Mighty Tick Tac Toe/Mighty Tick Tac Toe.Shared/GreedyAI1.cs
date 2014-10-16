@@ -6,17 +6,17 @@ namespace Mighty_Tick_Tac_Toe
 {
     class GreedyAI1
     {
-        public static void Play(GameEngine ge,int player, ref int Bc, ref int Br, out int Cc, out int Cr)
+        public static void Play(GameEngine ge, int player, ref int Bc, ref int Br, out int Cc, out int Cr, int level)
         {
             int winner;
             int age;
 
-            Play(ge.Cells, player, ref Bc, ref Br, out Cc, out Cr, out winner, out age);
+            Play(ge.Cells, player, ref Bc, ref Br, out Cc, out Cr, out winner, out age, level);
 
         }
-        public static void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age)
+        public static void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age, int level)
         {
-            if (Bc == -1)
+            if (Bc == -1 || boardIsFull(Cells, Bc, Br))
             {
                 ChooseBoardToPlay(Cells, player, ref Bc, ref Br);
             }
@@ -29,17 +29,164 @@ namespace Mighty_Tick_Tac_Toe
                 age = 0;
             }
 
-            PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
-            if (Cc == -1)
+            if (level == 1)
             {
-                ChooseBoardToPlay(Cells, player, ref Bc, ref Br);
                 PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
+            }
+            else if (level == 2)
+            {
+                PlayBestMove(Cells, player, Bc, Br, out Cc, out Cr);
+            }
+            else
+            {
+                Cc = -1;
+                Cr = -1;
             }
 
             winner = 0;
             age = 1;
         }
 
+        private static Boolean boardIsFull(int[, , ,] Cells, int Bc, int Br)
+        {
+            for (int ci = 0; ci < 3; ci++)
+            {
+                for (int cj = 0; cj < 3; cj++)
+                {
+                    if (Cells[Bc, Br, ci, cj] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private static void PlayBestMove(int[, , ,] Cells, int player, int Bc, int Br, out int Cc, out int Cr)
+        {
+            int[,] localBoard = new int[3, 3];
+            for (int ci = 0; ci < 3; ci++)
+            {
+                for (int cj = 0; cj < 3; cj++)
+                {
+                    localBoard[ci, cj] = Cells[Bc, Br, ci, cj];
+                }
+            }
+
+            int age;
+            PlayBestMove(localBoard, player, out Cc, out Cr, out age);
+        }
+
+        private static int PlayBestMove(int[,] localBoard, int player, out int Cc, out int Cr, out int age)
+        {
+            List<int> CellCol = new List<int>();
+            List<int> CellRow = new List<int>();
+            for (int ci = 0; ci < 3; ci++)
+            {
+                for (int cj = 0; cj < 3; cj++)
+                {
+                    if (localBoard[ci, cj] == 0)
+                    {
+                        CellCol.Add(ci);
+                        CellRow.Add(cj);
+                    }
+                }
+            }
+
+            Cc = -1;
+            Cr = -1;
+            age = 0;
+            if (CellCol.Count == 0)
+            {
+                return 0;
+            }
+
+            int bestScore = -10;
+            for (int i = 0; i < CellCol.Count; i++)
+            {
+                int localAge = 0;
+                int score = -10;
+                int[,] b = new int[3, 3];
+                Array.Copy(localBoard, b, localBoard.Length);
+
+                b[CellCol[i], CellRow[i]] = player;
+
+                var res = CheckBoard(b, player);
+
+                if (res == 1)
+                {
+                    score = 1;
+                    localAge = 1;
+                }
+                else if (res == -1)
+                {
+                    score = -1;
+                    localAge = 1;
+                }
+                else if (res == 20)
+                {
+                    score = 0;
+                    localAge = 1;
+                }
+                else
+                {
+                    score = -1 * PlayBestMove(b, -1 * player, out Cc, out Cr, out localAge);
+                    localAge++;
+                }
+
+                if (score > bestScore || (bestScore!=1 && score == bestScore && localAge > age))
+                {
+                    bestScore = score;
+                    Cc = CellCol[i];
+                    Cr = CellRow[i];
+                    age = localAge;
+                }
+            }
+
+            return bestScore;
+        }
+
+        private static int CheckBoard(int[,] b, int player)
+        {
+            if (b[0, 0] + b[0, 1] + b[0, 2] == 3 ||
+                b[1, 0] + b[1, 1] + b[1, 2] == 3 ||
+                b[2, 0] + b[2, 1] + b[2, 2] == 3 ||
+                b[0, 0] + b[1, 0] + b[2, 0] == 3 ||
+                b[0, 1] + b[1, 1] + b[2, 1] == 3 ||
+                b[0, 2] + b[1, 2] + b[2, 2] == 3 ||
+                b[0, 0] + b[1, 1] + b[2, 2] == 3 ||
+                b[0, 2] + b[1, 1] + b[2, 0] == 3
+                )
+                return player;
+
+            if (b[0, 0] + b[0, 1] + b[0, 2] == -3 ||
+                b[1, 0] + b[1, 1] + b[1, 2] == -3 ||
+                b[2, 0] + b[2, 1] + b[2, 2] == -3 ||
+                b[0, 0] + b[1, 0] + b[2, 0] == -3 ||
+                b[0, 1] + b[1, 1] + b[2, 1] == -3 ||
+                b[0, 2] + b[1, 2] + b[2, 2] == -3 ||
+                b[0, 0] + b[1, 1] + b[2, 2] == -3 ||
+                b[0, 2] + b[1, 1] + b[2, 0] == -3
+                )
+                return -1 * player;
+
+            bool isDraw = true;
+
+            foreach (int i in b)
+            {
+                if (i == 0)
+                {
+                    isDraw = false;
+                    break;
+                }
+            }
+
+            if (isDraw)
+                return 20;
+            else
+                return 0;
+        }
         private static void PlayRandomMove(int[, , ,] Cells, int Bc, int Br, out int Cc, out int Cr)
         {
             List<int> CellCol = new List<int>();

@@ -24,7 +24,8 @@ namespace Mighty_Tick_Tac_Toe
     enum GameMode
     {
         TwoPlayer,
-        AI_LVL_1
+        AI_LVL_1,
+        AI_LVL_2
     }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -48,7 +49,7 @@ namespace Mighty_Tick_Tac_Toe
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
-        GameMode gameMode = GameMode.AI_LVL_1;
+        GameMode gameMode = GameMode.AI_LVL_2;
 
         enum GameColor
         {
@@ -332,10 +333,23 @@ namespace Mighty_Tick_Tac_Toe
             {
                 currentPlayer *= -1;
 
-                if (isHuman && gameMode == GameMode.AI_LVL_1)
+                if (isHuman && gameMode > GameMode.TwoPlayer)
                 {
                     int Cc, Cr;
-                    GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr);
+
+                    switch (gameMode)
+                    {
+                        case GameMode.AI_LVL_1:
+                            GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 1);
+                            break;
+                        case GameMode.AI_LVL_2:
+                            GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 2);
+                            break;
+                        default:
+                            Cc = -1;
+                            Cr = -1;
+                            break;
+                    }
 
                     if (cc != -1)
                     {
