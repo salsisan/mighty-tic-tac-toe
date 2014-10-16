@@ -50,9 +50,11 @@ namespace Mighty_Tick_Tac_Toe
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
-        GameMode gameMode = GameMode.TwoPlayer;
+        GameMode gameMode = GameMode.AI_LVL_2;
         int greetingImgWidth = 175;
         int greetingImgHeight = 58;
+        int gameOverImgWidth = 250;
+        int gameOverImgHeight = 125;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
 
@@ -289,11 +291,7 @@ namespace Mighty_Tick_Tac_Toe
             if (result >= MoveState.SUCCESS_GAME_ON)
             {
                 // stop any flash animations
-                foreach (Storyboard sb in flashStoryboards)
-                {
-                    if (sb.GetCurrentState() == ClockState.Active)
-                        sb.Stop();
-                }
+                ClearFlashing();
 
                 // display turn tip for the *next* player
                 //AnimateYourTurn();
@@ -352,33 +350,41 @@ namespace Mighty_Tick_Tac_Toe
                 case MoveState.SUCCESS_BOARD_WON_GAME_ON:
 
                     ShowRandomGreeting();
-                    goto case MoveState.SUCCESS_BOARD_WON_GAME_WON;
+                    // color the won board
+                    ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
+                    break;
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_DRAW:
+
+                    // color the won board
+                    ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
+
+                    // then show the game over (draw) popup
+                    GameOver(true);
+                    break;
+
                 case MoveState.SUCCESS_BOARD_WON_GAME_WON:
 
                     // color the won board
-                    for (int i = 3 * bc; i < 3 * (bc + 1); i++)
-                    {
-                        for (int j = 3 * br; j < 3 * (br + 1); j++)
-                        {
-                            rects[j, i].Fill = (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO);
-                        }
-                    }
+                    ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
+
+                    // then show the game over popup
+                    GameOver(false);
                     break;
 
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW:
-                case MoveState.SUCCESS_BOARD_DRAW_GAME_ON:
 
-                    for (int i = 3 * bc; i < 3 * (bc + 1); i++)
-                    {
-                        for (int j = 3 * br; j < 3 * (br + 1); j++)
-                        {
-                            rects[j, i].Fill = GetColor(GameColor.BoardDraw);
-                        }
-                    }
+                    ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
+
+                    // then show the game over (draw) popup
+                    GameOver(true);
                     break;
 
+                case MoveState.SUCCESS_BOARD_DRAW_GAME_ON:
+
+                    // color the draw board
+                    ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
+                    break;
             }
 
             if (game.IsSuccessAndGameON(result))
@@ -409,6 +415,59 @@ namespace Mighty_Tick_Tac_Toe
                     }
                 }
             }
+        }
+
+        private void ClearFlashing()
+        {
+            foreach (Storyboard sb in flashStoryboards)
+            {
+                if (sb.GetCurrentState() == ClockState.Active)
+                    sb.Stop();
+            }
+            flashStoryboards.Clear();
+        }
+
+        private void ColorBoard(int bc, int br, Brush color)
+        {
+            for (int i = 3 * bc; i < 3 * (bc + 1); i++)
+            {
+                for (int j = 3 * br; j < 3 * (br + 1); j++)
+                {
+                    rects[j, i].Fill = color;
+                }
+            }
+        }
+
+        private void GameOver(bool draw)
+        {
+            // show game over popup
+            Image gameOverImg = new Image()
+            {
+                Source = new BitmapImage(new Uri(
+                this.BaseUri, draw ? "Assets/gameoverDraw.png" : currentPlayer == 1 ? "Assets/gameoverX.png" : "Assets/gameoverO.png")),
+                Height = gameOverImgHeight,
+                Width = gameOverImgWidth
+            };
+            Canvas.SetZIndex(gameOverImg, 100);
+            CanvasGrid.Children.Add(gameOverImg);
+            Grid.SetRow(gameOverImg, 1);
+            PopIn(
+                gameOverImg,
+                0,
+                1,
+                0,
+                1,
+                0.5 * gameOverImgWidth,
+                0,
+                0.5 * gameOverImgHeight,
+                0,
+                popInEasing);
+
+            // hide next turn popup
+            TurnImg.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            // stop all flashing cells
+            ClearFlashing();
         }
 
         private async void ShowRandomGreeting()
