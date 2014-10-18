@@ -27,6 +27,7 @@ namespace Mighty_Tick_Tac_Toe
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        GameMode gameMode = GameMode.TwoPlayer;
 
         public StartPage()
         {
@@ -108,9 +109,19 @@ namespace Mighty_Tick_Tac_Toe
 
         #endregion
 
-        private void startButton_Click(object sender, RoutedEventArgs e)
+        private void singlePlayerBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(GamePage));
+        }
+
+        private void MultiplayerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(GamePage));
+        }
+
+        private void GameRulesBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(GameRulesPage));
         }
     }
 }

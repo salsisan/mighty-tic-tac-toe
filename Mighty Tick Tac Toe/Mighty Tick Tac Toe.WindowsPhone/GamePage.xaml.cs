@@ -34,7 +34,7 @@ namespace Mighty_Tick_Tac_Toe
     public sealed partial class GamePage : Page
     {
         int currentPlayer = 1;
-        GameEngine game = new GameEngine();
+        public GameEngine game = new GameEngine();
         Dictionary<UIElement, List<int>> elementToCell = new Dictionary<UIElement, List<int>>();
         Dictionary<List<int>, UIElement> cellToElement = new Dictionary<List<int>, UIElement>();
         Rectangle[,] rects = new Rectangle[9, 9];
@@ -50,9 +50,9 @@ namespace Mighty_Tick_Tac_Toe
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
-        GameMode gameMode = GameMode.AI_LVL_2;
-        int greetingImgWidth = 175;
-        int greetingImgHeight = 58;
+        GameMode gameMode = GameMode.TwoPlayer;
+        int greetingImgWidth = 220;
+        int greetingImgHeight = 75;
         int gameOverImgWidth = 250;
         int gameOverImgHeight = 125;
         double greetingDurationSec = 2;
@@ -100,7 +100,7 @@ namespace Mighty_Tick_Tac_Toe
                 case GameColor.BoardWonO:
                     return new SolidColorBrush(Color.FromArgb(255, 255, 200, 200));
                 case GameColor.BoardDraw:
-                    return new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
+                    return new SolidColorBrush(Color.FromArgb(255, 255, 255, 200));
                 case GameColor.Border:
                     return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
             }

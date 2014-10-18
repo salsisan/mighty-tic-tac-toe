@@ -8,9 +8,9 @@
     mc:Ignorable="d"
     Background="White">
 
-    <Grid Name="CanvasGrid" Margin="20, 10, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
+    <Grid Name="CanvasGrid" Margin="20, 0, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
+            <RowDefinition Height="80" />
             <RowDefinition Height="400" />
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>

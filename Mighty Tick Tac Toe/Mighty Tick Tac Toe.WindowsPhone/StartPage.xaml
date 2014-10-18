@@ -28,7 +28,18 @@
 
         <!--TODO: Content should be placed within the following grid-->
         <Grid Grid.Row="1" x:Name="ContentRoot">
-            <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="141,209,0,0" VerticalAlignment="Top" Click="startButton_Click"/>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button x:Name="singlePlayerBtn" Grid.Row="2" Width="200" Content="Single Player" HorizontalAlignment="Center" VerticalAlignment="Center" Click="singlePlayerBtn_Click"/>
+            <Button x:Name="MultiplayerBtn" Grid.Row="3" Width="200" Content="Multiplayer" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MultiplayerBtn_Click"/>
+            <Button x:Name="GameRulesBtn" Grid.Row="4" Width="200" Content="Game Rules" HorizontalAlignment="Center" VerticalAlignment="Center" Click="GameRulesBtn_Click"/>
         </Grid>
     </Grid>
 </Page>
