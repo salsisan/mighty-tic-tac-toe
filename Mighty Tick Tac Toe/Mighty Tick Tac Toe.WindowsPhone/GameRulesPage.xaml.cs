@@ -25,6 +25,17 @@ namespace Mighty_Tick_Tac_Toe
         public GameRulesPage()
         {
             this.InitializeComponent();
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+                //Indicate the back button press is handled so the app does not exit
+                e.Handled = true;
+            }
         }
 
         /// <summary>

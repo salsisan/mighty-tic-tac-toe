@@ -20,6 +20,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Mighty_Tick_Tac_Toe
 {
+    class NavigationParams
+    {
+        public GameMode mode;
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -27,7 +32,6 @@ namespace Mighty_Tick_Tac_Toe
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
-        GameMode gameMode = GameMode.TwoPlayer;
 
         public StartPage()
         {
@@ -111,12 +115,16 @@ namespace Mighty_Tick_Tac_Toe
 
         private void singlePlayerBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GamePage));
+            NavigationParams parameters = new NavigationParams();
+            parameters.mode = GameMode.AI_LVL_2;
+            this.Frame.Navigate(typeof(GamePage), parameters);
         }
 
         private void MultiplayerBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GamePage));
+            NavigationParams parameters = new NavigationParams();
+            parameters.mode = GameMode.TwoPlayer;
+            this.Frame.Navigate(typeof(GamePage), parameters);
         }
 
         private void GameRulesBtn_Click(object sender, RoutedEventArgs e)

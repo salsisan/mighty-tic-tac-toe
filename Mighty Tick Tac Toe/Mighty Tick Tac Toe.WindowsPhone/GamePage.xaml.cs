@@ -72,6 +72,17 @@ namespace Mighty_Tick_Tac_Toe
         public GamePage()
         {
             this.InitializeComponent();
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+                //Indicate the back button press is handled so the app does not exit
+                e.Handled = true;
+            }
         }
 
         /// <summary>
@@ -81,6 +92,11 @@ namespace Mighty_Tick_Tac_Toe
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationParams parameters = e.Parameter as NavigationParams;
+            if (parameters != null)
+            {
+                gameMode = parameters.mode;
+            }
             PaintGrid();
         }
 
@@ -448,6 +464,7 @@ namespace Mighty_Tick_Tac_Toe
                 Height = gameOverImgHeight,
                 Width = gameOverImgWidth
             };
+
             Canvas.SetZIndex(gameOverImg, 100);
             CanvasGrid.Children.Add(gameOverImg);
             Grid.SetRow(gameOverImg, 1);
@@ -463,11 +480,28 @@ namespace Mighty_Tick_Tac_Toe
                 0,
                 popInEasing);
 
+            gameOverImg.Tapped += gameOverImg_Tapped;
+
             // hide next turn popup
             TurnImg.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             // stop all flashing cells
             ClearFlashing();
+        }
+
+        void gameOverImg_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            PopIn(
+                sender as Image,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0.5 * gameOverImgWidth,
+                0,
+                0.5 * gameOverImgHeight,
+                popOutEasing);
         }
 
         private async void ShowRandomGreeting()
