@@ -34,13 +34,15 @@ namespace Mighty_Tick_Tac_Toe
     public sealed partial class GamePage : Page
     {
         int currentPlayer = 1;
+        int lastMoveRow = -1, lastMoveCol = -1;
         public GameEngine game = new GameEngine();
         Dictionary<UIElement, List<int>> elementToCell = new Dictionary<UIElement, List<int>>();
         Dictionary<List<int>, UIElement> cellToElement = new Dictionary<List<int>, UIElement>();
         Rectangle[,] rects = new Rectangle[9, 9];
+        Image[,] imgs = new Image[9, 9];
         double cellHeight = 0, cellWidth = 0;
         double imgHeight = 0, imgWidth = 0;
-        double yourTurnImgWidth = 110, yourTurnImgHeight = 40;
+        double turnImgWidth = 200, turnImgHeight = 100;
         double appMargin = 20;
         int rows = 9, cols = 9;
         double imgToCellPerc = 0.8;
@@ -57,6 +59,8 @@ namespace Mighty_Tick_Tac_Toe
         int gameOverImgHeight = 125;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
+
+        bool UIEnabled = true;
 
         enum GameColor
         {
@@ -168,6 +172,17 @@ namespace Mighty_Tick_Tac_Toe
 
         void FillCell(int row, int col, string c)
         {
+            var img = new Image();
+            string path;
+            path = "ms-appx:///Assets/" + c + ".png";
+            img.Source = new BitmapImage(new Uri(this.BaseUri, path));
+            img.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
+            img.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
+            img.Stretch = Stretch.UniformToFill;
+            img.Tapped += CellTapped;
+            Canvas.SetZIndex(img, 0);
+            imgs[row, col] = img;
+
             if (row > 2)
                 row++;
             if (row > 6)
@@ -183,21 +198,11 @@ namespace Mighty_Tick_Tac_Toe
                 StatusText.Text = "Wrong fill character: " + c;
                 return;
             }
-            var img = new Image();
-            string path;
-            path = "ms-appx:///Assets/" + c + ".png";
-            img.Source = new BitmapImage(new Uri(this.BaseUri, path));
-            img.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center;
-            img.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center;
-            img.Stretch = Stretch.UniformToFill;
-            img.Tapped += CellTapped;
-            Canvas.SetZIndex(img, 0);
-
             GameGrid.Children.Add(img);
             Grid.SetRow(img, row);
             Grid.SetColumn(img, col);
 
-            PopIn(
+            PopImage(
                 img,
                 0,
                 imgToCellPerc,
@@ -210,7 +215,7 @@ namespace Mighty_Tick_Tac_Toe
                 popInEasing);
         }
 
-        private void PopIn(
+        private void PopImage(
             Image img,
             double scaleWidthFrom,
             double scaleWidthTo,
@@ -282,6 +287,9 @@ namespace Mighty_Tick_Tac_Toe
 
         void CellTapped(object sender, TappedRoutedEventArgs args)
         {
+            if (!UIEnabled)
+                return;
+
             int gr = Grid.GetRow(sender as FrameworkElement);
             int gc = Grid.GetColumn(sender as FrameworkElement);
 
@@ -301,6 +309,8 @@ namespace Mighty_Tick_Tac_Toe
 
         void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
         {
+            lastMoveRow = gr;
+            lastMoveCol = gc;
 
             var result = game.PlayMove(currentPlayer, bc, br, cc, cr);
 
@@ -312,15 +322,15 @@ namespace Mighty_Tick_Tac_Toe
                 // display turn tip for the *next* player
                 //AnimateYourTurn();
                 TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
-                PopIn(
+                PopImage(
                     TurnImg,
                     0,
                     1,
                     0,
                     1,
-                    0.5 * yourTurnImgWidth,
+                    0.5 * turnImgWidth,
                     0,
-                    0.5 * yourTurnImgHeight,
+                    0.5 * turnImgHeight,
                     0,
                     popInEasing);
 
@@ -468,7 +478,7 @@ namespace Mighty_Tick_Tac_Toe
             Canvas.SetZIndex(gameOverImg, 100);
             CanvasGrid.Children.Add(gameOverImg);
             Grid.SetRow(gameOverImg, 1);
-            PopIn(
+            PopImage(
                 gameOverImg,
                 0,
                 1,
@@ -491,7 +501,7 @@ namespace Mighty_Tick_Tac_Toe
 
         void gameOverImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            PopIn(
+            PopImage(
                 sender as Image,
                 1,
                 0,
@@ -515,9 +525,9 @@ namespace Mighty_Tick_Tac_Toe
             Grid.SetRow(greetingImg, 0);
             Canvas.SetZIndex(greetingImg, 10);
 
-            PopIn(greetingImg, 0, 1, 0, 1, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, 0, popInEasing);
+            PopImage(greetingImg, 0, 1, 0, 1, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, 0, popInEasing);
             await Task.Delay(TimeSpan.FromSeconds(greetingDurationSec));
-            PopIn(greetingImg, 1, 0, 1, 0, 0, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, popOutEasing);
+            PopImage(greetingImg, 1, 0, 1, 0, 0, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, popOutEasing);
         }
 
         void FlashCell(UIElement target)
@@ -543,16 +553,51 @@ namespace Mighty_Tick_Tac_Toe
         void AnimateYourTurn()
         {
             TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
-            PopIn(
+            PopImage(
                 TurnImg,
                 0,
                 1,
                 0,
                 1,
-                0.5 * yourTurnImgWidth,
+                0.5 * turnImgWidth,
                 0,
-                0.5 * yourTurnImgHeight,
+                0.5 * turnImgHeight,
                 0, popInEasing);
+        }
+
+        private async void TurnImg_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!UIEnabled || lastMoveCol == -1 || lastMoveRow == -1)
+                return;
+
+            // disable UI so that user can't interrupt the pop back animation
+            UIEnabled = false;
+
+            PopImage(imgs[lastMoveRow, lastMoveCol],
+                imgToCellPerc,
+                1.5,
+                imgToCellPerc,
+                1.5,
+                (1 - imgToCellPerc) / 2 * cellWidth,
+                -0.25 * cellWidth,
+                (1 - imgToCellPerc) / 2 * cellHeight,
+                -0.25 * cellHeight,
+                popInEasing);
+
+            await Task.Delay(TimeSpan.FromSeconds(1));
+
+            PopImage(imgs[lastMoveRow, lastMoveCol],
+                1.5,
+                imgToCellPerc,
+                1.5,
+                imgToCellPerc,
+                -0.25 * cellWidth,
+                (1 - imgToCellPerc) / 2 * cellWidth,
+                -0.25 * cellHeight,
+                (1 - imgToCellPerc) / 2 * cellHeight,
+                popInEasing);
+
+            UIEnabled = true;
         }
     }
 }
