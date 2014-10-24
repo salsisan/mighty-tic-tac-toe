@@ -307,7 +307,7 @@ namespace Mighty_Tick_Tac_Toe
             PlayMove(gc, gr, bc, br, cc, cr, true);
         }
 
-        void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
+        async void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
         {
             lastMoveRow = gr;
             lastMoveCol = gc;
@@ -421,6 +421,12 @@ namespace Mighty_Tick_Tac_Toe
                 {
                     int Cc, Cr;
 
+                    // sleep pretend we're thinking
+                    UIEnabled = false;
+                    turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble() + 1));
+                    turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    
                     switch (gameMode)
                     {
                         case GameMode.AI_LVL_1:
@@ -439,6 +445,8 @@ namespace Mighty_Tick_Tac_Toe
                     {
                         PlayMove(cc * 3 + Cc, cr * 3 + Cr, cc, cr, Cc, Cr, false);
                     }
+
+                    UIEnabled = true;
                 }
             }
         }
