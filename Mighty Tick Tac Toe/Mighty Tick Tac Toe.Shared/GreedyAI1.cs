@@ -103,11 +103,11 @@ namespace Mighty_Tick_Tac_Toe
             }
             else if (level == 3)
             {
-                PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 4);
-                /*
+                //PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 3);
+                
                 if (playedMoves < 50)
                 {
-                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 5);
+                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 3);
                 }
                 //else if (playedMoves < 50)
                 //{
@@ -115,9 +115,9 @@ namespace Mighty_Tick_Tac_Toe
                 //}
                 else
                 {
-                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 10);
+                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 4);
                 }
-                 */
+                 
             }
             else
             {
@@ -234,7 +234,7 @@ namespace Mighty_Tick_Tac_Toe
 
                     }
                 }
-                return (wins + loses) / 9;
+                return (wins - loses) / 9;
                 // instead retun a franction between -1 and 1 based on finished boards
             }
              
