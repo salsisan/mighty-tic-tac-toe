@@ -16,26 +16,86 @@ namespace Mighty_Tick_Tac_Toe
         }
         public static void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age, int level)
         {
-            if (Bc == -1 || boardIsFull(Cells, Bc, Br))
-            {
-                ChooseBoardToPlay(Cells, player, ref Bc, ref Br);
-            }
-
-            if (Bc == -1)
-            {
-                Cr = -1;
-                Cc = -1;
-                winner = 0;
-                age = 0;
-            }
-
+            Cr = -1;
+            Cc = -1;
+            winner = 0;
+            age = 0;
             if (level == 1)
             {
-                PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
+                if (Bc == -1 || boardIsFull(Cells, Bc, Br))
+                {
+                    ChooseBoardToPlay(Cells, player, ref Bc, ref Br);
+                }
+
+                if (Bc == -1)
+                {
+                    Cr = -1;
+                    Cc = -1;
+                    winner = 0;
+                    age = 0;
+                    return;
+                }
+
+                if (level == 1)
+                {
+                    PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
+                }
             }
             else if (level == 2)
             {
-                PlayBestMove(Cells, player, Bc, Br, out Cc, out Cr);
+                if (Bc == -1 || boardIsFull(Cells, Bc, Br))
+                {
+                    List<int> availableBc = new List<int>();
+                    List<int> availableBr = new List<int>();
+                    FindAvailableBoards(Cells, player, availableBc, availableBr);
+                    if (availableBc.Count == 0)
+                    {
+                        Cr = -1;
+                        Cc = -1;
+                        winner = 0;
+                        age = 0;
+                        return;
+                    }
+                    int bestScore = -10;
+                    for (int i = 0; i<availableBc.Count; i++)
+                    {
+                        int localAge;
+                        int c, r;
+                        int[,,,] cells = new int[3, 3,3 ,3];
+                        Array.Copy(Cells, cells, Cells.Length);
+                        int score = PlayBestMove(cells, player, availableBc[i], availableBr[i], out c, out r, out localAge);
+                        if (score > bestScore || (bestScore != 1 && score == bestScore && localAge >= age) || (bestScore == 1 && score == bestScore && localAge <= age))
+                        {
+                            if (localAge == age && score == bestScore)
+                            {
+                                if (new Random().Next() % 2 == 0)
+                                {
+                                    Bc = availableBc[i];
+                                    Br = availableBr[i];
+                                    bestScore = score;
+                                    Cc = c;
+                                    Cr = r;
+                                    age = localAge;
+                                }
+                            }
+                            else
+                            {
+                                Bc = availableBc[i];
+                                Br = availableBr[i];
+                                bestScore = score;
+                                Cc = c;
+                                Cr = r;
+                                age = localAge;
+                            }
+                        }
+                    }
+
+                    
+                }
+                else
+                {
+                    PlayBestMove(Cells, player, Bc, Br, out Cc, out Cr, out age);
+                }
             }
             else
             {
@@ -45,6 +105,35 @@ namespace Mighty_Tick_Tac_Toe
 
             winner = 0;
             age = 1;
+        }
+
+        private static void FindAvailableBoards(int[, , ,] Cells, int player, List<int> availableBc, List<int> availableBr)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    bool isAv = false;
+                    for (int ci = 0; ci < 3; ci++)
+                    {
+                        for (int cj = 0; cj < 3; cj++)
+                        {
+                            if (Cells[i, j, ci, cj] == 0)
+                            {
+                                isAv = true;
+                                break;
+                            }
+                        }
+                        if (isAv) break;
+                    }
+
+                    if (isAv)
+                    {
+                        availableBc.Add(i);
+                        availableBr.Add(j);
+                    }
+                }
+            }
         }
 
         private static Boolean boardIsFull(int[, , ,] Cells, int Bc, int Br)
@@ -63,7 +152,7 @@ namespace Mighty_Tick_Tac_Toe
             return true;
         }
 
-        private static void PlayBestMove(int[, , ,] Cells, int player, int Bc, int Br, out int Cc, out int Cr)
+        private static int PlayBestMove(int[, , ,] Cells, int player, int Bc, int Br, out int Cc, out int Cr, out int age)
         {
             int[,] localBoard = new int[3, 3];
             for (int ci = 0; ci < 3; ci++)
@@ -74,8 +163,7 @@ namespace Mighty_Tick_Tac_Toe
                 }
             }
 
-            int age;
-            PlayBestMove(localBoard, player, out Cc, out Cr, out age);
+            return PlayBestMove(localBoard, player, out Cc, out Cr, out age);
         }
 
         private static int PlayBestMove(int[,] localBoard, int player, out int Cc, out int Cr, out int age)
@@ -101,6 +189,12 @@ namespace Mighty_Tick_Tac_Toe
             {
                 return 0;
             }
+            if (CellCol.Count == 9)
+            {
+                Cc = new Random().Next() % 3;
+                Cr = new Random().Next() % 3;
+                return 0;
+            }
 
             int bestScore = -10;
             for (int i = 0; i < CellCol.Count; i++)
@@ -108,6 +202,7 @@ namespace Mighty_Tick_Tac_Toe
                 int localAge = 0;
                 int score = -10;
                 int[,] b = new int[3, 3];
+                int c, r;
                 Array.Copy(localBoard, b, localBoard.Length);
 
                 b[CellCol[i], CellRow[i]] = player;
@@ -131,16 +226,29 @@ namespace Mighty_Tick_Tac_Toe
                 }
                 else
                 {
-                    score = -1 * PlayBestMove(b, -1 * player, out Cc, out Cr, out localAge);
+                    score = -1 * PlayBestMove(b, -1 * player, out c, out r, out localAge);
                     localAge++;
                 }
 
-                if (score > bestScore || (bestScore!=1 && score == bestScore && localAge > age))
+                if (score > bestScore || (bestScore != 1 && score == bestScore && localAge >= age) || (bestScore == 1 && score == bestScore && localAge <= age))
                 {
-                    bestScore = score;
-                    Cc = CellCol[i];
-                    Cr = CellRow[i];
-                    age = localAge;
+                    if (localAge == age && score==bestScore)
+                    {
+                        if (new Random().Next() % 2 ==0)
+                        { 
+                        bestScore = score;
+                        Cc = CellCol[i];
+                        Cr = CellRow[i];
+                        age = localAge;
+                            }
+                    }
+                    else
+                    {
+                        bestScore = score;
+                        Cc = CellCol[i];
+                        Cr = CellRow[i];
+                        age = localAge; 
+                    }
                 }
             }
 
