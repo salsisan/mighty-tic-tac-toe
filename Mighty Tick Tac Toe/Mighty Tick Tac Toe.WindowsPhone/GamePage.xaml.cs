@@ -60,6 +60,7 @@ namespace Mighty_Tick_Tac_Toe
         int gameOverImgHeight = 125;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
+        bool soundEffectsEnabled = true;
 
         bool UIEnabled = true;
 
@@ -372,14 +373,21 @@ namespace Mighty_Tick_Tac_Toe
                 // get original cell coords first
                 FillCell(gr, gc, currentPlayer == 1 ? "X" : "O");
 
-                // play the corresponding sound effect
-                if (currentPlayer == 1)
+                if (soundEffectsEnabled)
                 {
-                    ButtonXSound.Play();
-                }
-                else
-                {
-                    ButtonOSound.Play();
+                    try
+                    {
+                        // play the corresponding sound effect
+                        if (currentPlayer == 1)
+                        {
+                            ButtonXSound.Play();
+                        }
+                        else
+                        {
+                            ButtonOSound.Play();
+                        }
+                    }
+                    catch (Exception) { }
                 }
             }
 
@@ -446,7 +454,7 @@ namespace Mighty_Tick_Tac_Toe
                     // sleep pretend we're thinking
                     UIEnabled = false;
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble() ));
+                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble()));
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
                     switch (gameMode)
@@ -460,7 +468,7 @@ namespace Mighty_Tick_Tac_Toe
                         case GameMode.AI_LVL_3:
                             GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 3);
                             break;
-                        
+
                         default:
                             Cc = -1;
                             Cr = -1;
@@ -500,8 +508,15 @@ namespace Mighty_Tick_Tac_Toe
 
         private void GameOver(bool draw)
         {
-            // play game over music
-            GameWonSound.Play();
+            if (soundEffectsEnabled)
+            {
+                try
+                {
+                    // play game over music
+                    GameWonSound.Play();
+                }
+                catch (Exception) { }
+            }
 
             // show game over popup
             Image gameOverImg = new Image()
@@ -557,8 +572,15 @@ namespace Mighty_Tick_Tac_Toe
 
         private async void ShowRandomGreeting()
         {
-            // play board won sound
-            BoardWonSound.Play();
+            if (soundEffectsEnabled)
+            {
+                // play board won sound
+                try
+                {
+                    BoardWonSound.Play();
+                }
+                catch (Exception) { }
+            }
 
             Image greetingImg = new Image();
             greetingImg.Source = new BitmapImage(new Uri(
@@ -643,6 +665,19 @@ namespace Mighty_Tick_Tac_Toe
                 popInEasing);
 
             UIEnabled = true;
+        }
+
+        private void AudioIcon_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (soundEffectsEnabled)
+            {
+                AudioIcon.Source = new BitmapImage(new Uri(this.BaseUri, "Assets/audioOff.png"));
+            }
+            else
+            {
+                AudioIcon.Source = new BitmapImage(new Uri(this.BaseUri, "Assets/audioOn.png"));
+            }
+            soundEffectsEnabled = !soundEffectsEnabled;
         }
     }
 }
