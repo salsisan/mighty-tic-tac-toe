@@ -42,7 +42,7 @@ namespace Mighty_Tick_Tac_Toe
         Image[,] imgs = new Image[9, 9];
         double cellHeight = 0, cellWidth = 0;
         double imgHeight = 0, imgWidth = 0;
-        double turnImgWidth = 200, turnImgHeight = 100;
+        double turnImgWidth = 100, turnImgHeight = 50;
         double appMargin = 20;
         int rows = 9, cols = 9;
         double imgToCellPerc = 0.8;
@@ -309,6 +309,12 @@ namespace Mighty_Tick_Tac_Toe
 
         async void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
         {
+            // show last turn icon if this is the very first move
+            if (lastMoveCol == -1 || lastMoveRow == -1)
+            {
+                LastTurnImg.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+
             lastMoveRow = gr;
             lastMoveCol = gc;
 
@@ -364,6 +370,16 @@ namespace Mighty_Tick_Tac_Toe
                 // put an X/O
                 // get original cell coords first
                 FillCell(gr, gc, currentPlayer == 1 ? "X" : "O");
+
+                // play the corresponding sound effect
+                if (currentPlayer == 1)
+                {
+                    ButtonXSound.Play();
+                }
+                else
+                {
+                    ButtonOSound.Play();
+                }
             }
 
             switch (result)
@@ -375,7 +391,12 @@ namespace Mighty_Tick_Tac_Toe
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_ON:
 
-                    ShowRandomGreeting();
+                    // if the winner is not AI, greet the board winner
+                    if (!(currentPlayer == -1 && gameMode > GameMode.TwoPlayer))
+                    {
+                        ShowRandomGreeting();
+                    }
+
                     // color the won board
                     ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
                     break;
@@ -426,7 +447,7 @@ namespace Mighty_Tick_Tac_Toe
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble() + 1));
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    
+
                     switch (gameMode)
                     {
                         case GameMode.AI_LVL_1:
@@ -474,6 +495,9 @@ namespace Mighty_Tick_Tac_Toe
 
         private void GameOver(bool draw)
         {
+            // play game over music
+            GameWonSound.Play();
+
             // show game over popup
             Image gameOverImg = new Image()
             {
@@ -486,6 +510,7 @@ namespace Mighty_Tick_Tac_Toe
             Canvas.SetZIndex(gameOverImg, 100);
             CanvasGrid.Children.Add(gameOverImg);
             Grid.SetRow(gameOverImg, 1);
+            Grid.SetColumnSpan(gameOverImg, 2);
             PopImage(
                 gameOverImg,
                 0,
@@ -502,6 +527,9 @@ namespace Mighty_Tick_Tac_Toe
 
             // hide next turn popup
             TurnImg.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            // hide last turn icon
+            LastTurnImg.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
             // stop all flashing cells
             ClearFlashing();
@@ -524,6 +552,9 @@ namespace Mighty_Tick_Tac_Toe
 
         private async void ShowRandomGreeting()
         {
+            // play board won sound
+            BoardWonSound.Play();
+
             Image greetingImg = new Image();
             greetingImg.Source = new BitmapImage(new Uri(
                 this.BaseUri, "Assets/greeting_" + randomGreetings[new Random().Next() % randomGreetings.Length] + ".png"));
@@ -531,6 +562,7 @@ namespace Mighty_Tick_Tac_Toe
             greetingImg.Width = greetingImgWidth;
             CanvasGrid.Children.Add(greetingImg);
             Grid.SetRow(greetingImg, 0);
+            Grid.SetColumnSpan(greetingImg, 2);
             Canvas.SetZIndex(greetingImg, 10);
 
             PopImage(greetingImg, 0, 1, 0, 1, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, 0, popInEasing);
@@ -563,9 +595,9 @@ namespace Mighty_Tick_Tac_Toe
             TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
             PopImage(
                 TurnImg,
-                0,
+                0.7,
                 1,
-                0,
+                0.7,
                 1,
                 0.5 * turnImgWidth,
                 0,

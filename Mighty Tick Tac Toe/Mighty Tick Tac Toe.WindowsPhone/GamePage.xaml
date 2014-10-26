@@ -10,13 +10,16 @@
 
     <Grid Name="CanvasGrid" Margin="20, 0, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
-            <RowDefinition Height="370" />
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="400" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ProgressBar Name="turnProgressBar" Width="50" Height="10" Visibility="Collapsed" IsIndeterminate="True" />
-        <Grid Name="GameGrid" Height="350" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ProgressBar Name="turnProgressBar" Width="50" Height="10" Visibility="Collapsed" IsIndeterminate="True" Grid.ColumnSpan="2" />
+        <Grid Name="GameGrid" Height="350" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.ColumnSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -44,7 +47,13 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
         </Grid>
-        <Image Name="TurnImg" Source="Assets/xturn.png" Grid.Row="2" Height="80" Width="150" Tapped="TurnImg_Tapped" />
-        <TextBox Name="StatusText" Grid.Row="3" Background="Black" Foreground="White" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Bottom" Width="360" Height="40"/>
+        <Image Name="LastTurnImg" Visibility="Collapsed" Source="Assets/lastTurn.png" Grid.Row="2" Height="60" Width="60" VerticalAlignment="Center" Tapped="TurnImg_Tapped" HorizontalAlignment="Center" Grid.Column="0" />
+        <Image Name="TurnImg" Source="Assets/xturn.png" Grid.Row="2" Height="50" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" />
+        <TextBox Name="StatusText" Visibility="Collapsed" Grid.Row="2" Background="Black" Foreground="White" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Bottom" Width="360" Height="40" Grid.ColumnSpan="2"/>
+
+        <MediaElement Name="ButtonXSound" AudioCategory="GameEffects" Source="Assets/Sounds/Tap1.wav" Volume="0.5" AutoPlay="False" />
+        <MediaElement Name="ButtonOSound" AudioCategory="GameEffects" Source="Assets/Sounds/Tap2.wav" Volume="0.5" AutoPlay="False" />
+        <MediaElement Name="BoardWonSound" AudioCategory="GameEffects" Source="Assets/Sounds/boardWon.wav" Volume="5" AutoPlay="False" />
+        <MediaElement Name="GameWonSound" AudioCategory="GameEffects" Source="Assets/Sounds/gameWon.wav" Volume="5" AutoPlay="False" />
     </Grid>
 </Page>
