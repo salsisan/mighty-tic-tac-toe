@@ -19,6 +19,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <ProgressBar Name="turnProgressBar" Width="50" Height="10" Visibility="Collapsed" IsIndeterminate="True" Grid.ColumnSpan="2" />
+        <Image Name="AudioIcon" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="40" Source="Assets/AudioOn.png" Tapped="AudioIcon_Tapped" />
         <Grid Name="GameGrid" Height="350" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.ColumnSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition />
