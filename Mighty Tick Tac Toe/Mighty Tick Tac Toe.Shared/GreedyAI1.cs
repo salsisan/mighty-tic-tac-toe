@@ -16,6 +16,12 @@ namespace Mighty_Tick_Tac_Toe
         }
         public static void Play(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, out int winner, out int age, int level)
         {
+            int playedMoves = 0;
+            foreach (int i in Cells)
+            {
+                if (i != 0) playedMoves++;
+            }
+
             Cr = -1;
             Cc = -1;
             winner = 0;
@@ -41,7 +47,7 @@ namespace Mighty_Tick_Tac_Toe
                     PlayRandomMove(Cells, Bc, Br, out Cc, out Cr);
                 }
             }
-            else if (level == 2)
+            else if (level == 2 /* || (level==3 && playedMoves < 15)*/)
             {
                 if (Bc == -1 || boardIsFull(Cells, Bc, Br))
                 {
@@ -89,13 +95,29 @@ namespace Mighty_Tick_Tac_Toe
                             }
                         }
                     }
-
-                    
                 }
                 else
                 {
                     PlayBestMove(Cells, player, Bc, Br, out Cc, out Cr, out age);
                 }
+            }
+            else if (level == 3)
+            {
+                PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 4);
+                /*
+                if (playedMoves < 50)
+                {
+                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 5);
+                }
+                //else if (playedMoves < 50)
+                //{
+                //    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 6);
+                //}
+                else
+                {
+                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 10);
+                }
+                 */
             }
             else
             {
@@ -164,6 +186,164 @@ namespace Mighty_Tick_Tac_Toe
             }
 
             return PlayBestMove(localBoard, player, out Cc, out Cr, out age);
+        }
+
+        private static float PlayBestGlobalMove(int[, , ,] Cells, int player, ref int Bc, ref int Br, out int Cc, out int Cr, ref int age, int maxAge)
+        {
+            List<int> availableBc = new List<int>();
+            List<int> availableBr = new List<int>();
+            List<int> availableCc = new List<int>();
+            List<int> availableCr = new List<int>();
+            Cc = -1;
+            Cr = -1;
+
+            if (age > maxAge)
+            {
+                float wins = 0;
+                float loses = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (
+                            Cells[i, j, 0, 0] + Cells[i, j, 0, 1] + Cells[i, j, 0, 2] == player * 3 ||
+                            Cells[i, j, 1, 0] + Cells[i, j, 1, 1] + Cells[i, j, 1, 2] == player * 3 ||
+                            Cells[i, j, 2, 0] + Cells[i, j, 2, 1] + Cells[i, j, 2, 2] == player * 3 ||
+                            Cells[i, j, 0, 0] + Cells[i, j, 1, 0] + Cells[i, j, 2, 0] == player * 3 ||
+                            Cells[i, j, 0, 1] + Cells[i, j, 1, 1] + Cells[i, j, 2, 1] == player * 3 ||
+                            Cells[i, j, 0, 2] + Cells[i, j, 1, 2] + Cells[i, j, 2, 2] == player * 3 ||
+                            Cells[i, j, 0, 0] + Cells[i, j, 1, 1] + Cells[i, j, 2, 2] == player * 3 ||
+                            Cells[i, j, 0, 2] + Cells[i, j, 1, 1] + Cells[i, j, 2, 0] == player * 3
+                            )
+                        {
+                            wins++;
+                        }
+                        else if (
+                            Cells[i, j, 0, 0] + Cells[i, j, 0, 1] + Cells[i, j, 0, 2] == -1 * player * 3 ||
+                            Cells[i, j, 1, 0] + Cells[i, j, 1, 1] + Cells[i, j, 1, 2] == -1 * player * 3 ||
+                            Cells[i, j, 2, 0] + Cells[i, j, 2, 1] + Cells[i, j, 2, 2] == -1 * player * 3 ||
+                            Cells[i, j, 0, 0] + Cells[i, j, 1, 0] + Cells[i, j, 2, 0] == -1 * player * 3 ||
+                            Cells[i, j, 0, 1] + Cells[i, j, 1, 1] + Cells[i, j, 2, 1] == -1 * player * 3 ||
+                            Cells[i, j, 0, 2] + Cells[i, j, 1, 2] + Cells[i, j, 2, 2] == -1 * player * 3 ||
+                            Cells[i, j, 0, 0] + Cells[i, j, 1, 1] + Cells[i, j, 2, 2] == -1 * player * 3 ||
+                            Cells[i, j, 0, 2] + Cells[i, j, 1, 1] + Cells[i, j, 2, 0] == -1 * player * 3
+                            )
+                        {
+                            loses++;
+                        }
+
+                    }
+                }
+                return (wins + loses) / 9;
+                // instead retun a franction between -1 and 1 based on finished boards
+            }
+             
+
+            FindAvailableMoves(Cells, Bc, Br, availableBc, availableBr, availableCc, availableCr);
+
+            if (availableBc.Count == 0)
+            {
+                return 0;
+                // instead retun a franction between -1 and 1 based on finished boards
+            }
+
+            float bestScore = -10;
+            int bestAge = 0;
+            for (int i = 0; i < availableBc.Count; i++)
+            {
+                int localAge = age;
+                float score = -10;
+                //int[,,,] cells = new int[3, 3, 3, 3];
+                GameEngine localEngine = new GameEngine();
+                localEngine.NextPlayer = player;
+                int cc, cr;
+                Array.Copy(Cells, localEngine.Cells, Cells.Length);
+                MoveState res = localEngine.PlayMove(player, availableBc[i], availableBr[i], availableCc[i], availableCr[i]);
+                localAge++;
+
+                if (res == MoveState.SUCCESS_BOARD_WON_GAME_WON)
+                {
+                    score = 1;
+                }
+                else if (!localEngine.IsSuccess(res))
+                {
+                    break;
+                }
+                else
+                {
+                    score = -1 * PlayBestGlobalMove(localEngine.Cells, -1 * player, ref localEngine.NextBoardCol, ref localEngine.NextBoardRow, out cc, out cr, ref localAge, maxAge);
+                }
+
+                if (score > bestScore || (bestScore != 1 && score == bestScore && localAge >= bestAge) || (bestScore == 1 && score == bestScore && localAge <= bestAge))
+                {
+                    if (localAge == bestAge && score == bestScore)
+                    {
+                        if (new Random().Next() % 2 == 0)
+                        {
+                            bestScore = score;
+                            Bc = availableBc[i];
+                            Br = availableBr[i];
+                            Cc = availableCc[i];
+                            Cr = availableCr[i];
+                            bestAge = localAge;
+                        }
+                    }
+                    else
+                    {
+                            bestScore = score;
+                            Bc = availableBc[i];
+                            Br = availableBr[i];
+                            Cc = availableCc[i];
+                            Cr = availableCr[i];
+                            bestAge = localAge;
+                    }
+                }
+            }
+
+            age = bestAge;
+            return bestScore;
+        }
+
+        private static void FindAvailableMoves(int[, , ,] Cells, int Bc, int Br, List<int> availableBc, List<int> availableBr, List<int> availableCc, List<int> availableCr)
+        {
+            if (Bc == -1 || boardIsFull(Cells, Bc, Br))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        for (int k = 0; k < 3; k++)
+                        {
+                            for (int l = 0; l < 3; l++)
+                            {
+                                if (Cells[i, j, k, l] == 0)
+                                {
+                                    availableBc.Add(i);
+                                    availableBr.Add(j);
+                                    availableCc.Add(k);
+                                    availableCr.Add(l);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    for (int l = 0; l < 3; l++)
+                    {
+                        if (Cells[Bc, Br, k, l] == 0)
+                        {
+                            availableBc.Add(Bc);
+                            availableBr.Add(Br);
+                            availableCc.Add(k);
+                            availableCr.Add(l);
+                        }
+                    }
+                }
+            }
         }
 
         private static int PlayBestMove(int[,] localBoard, int player, out int Cc, out int Cr, out int age)

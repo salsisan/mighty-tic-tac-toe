@@ -26,9 +26,9 @@ namespace Mighty_Tick_Tac_Toe
     {
         int[,] Boards = new int[3, 3];
         public int[, , ,] Cells = new int[3, 3, 3, 3];
-        int NextPlayer = 1;
+        public int NextPlayer = 1;
         public int NextBoardCol = -1;
-        int NextBoardRow = -1;
+        public int NextBoardRow = -1;
         Boolean gameFinished = false;
 
         public bool IsSuccess(MoveState state)

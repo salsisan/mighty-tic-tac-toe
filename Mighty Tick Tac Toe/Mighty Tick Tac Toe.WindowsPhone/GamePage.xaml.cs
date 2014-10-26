@@ -26,7 +26,8 @@ namespace Mighty_Tick_Tac_Toe
     {
         TwoPlayer,
         AI_LVL_1,
-        AI_LVL_2
+        AI_LVL_2,
+        AI_LVL_3
     }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -424,7 +425,7 @@ namespace Mighty_Tick_Tac_Toe
                     // sleep pretend we're thinking
                     UIEnabled = false;
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble() + 1));
+                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble() ));
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                     
                     switch (gameMode)
@@ -435,6 +436,10 @@ namespace Mighty_Tick_Tac_Toe
                         case GameMode.AI_LVL_2:
                             GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 2);
                             break;
+                        case GameMode.AI_LVL_3:
+                            GreedyAI1.Play(game, currentPlayer, ref cc, ref cr, out Cc, out Cr, 3);
+                            break;
+                        
                         default:
                             Cc = -1;
                             Cr = -1;
