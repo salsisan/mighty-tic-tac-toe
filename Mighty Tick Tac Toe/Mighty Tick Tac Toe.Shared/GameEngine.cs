@@ -26,9 +26,9 @@ namespace Mighty_Tick_Tac_Toe
     {
         int[,] Boards = new int[3, 3];
         public int[, , ,] Cells = new int[3, 3, 3, 3];
-        int NextPlayer = 1;
+        public int NextPlayer = 1;
         public int NextBoardCol = -1;
-        int NextBoardRow = -1;
+        public int NextBoardRow = -1;
         Boolean gameFinished = false;
 
         public bool IsSuccess(MoveState state)
@@ -207,7 +207,10 @@ namespace Mighty_Tick_Tac_Toe
             }
 
             if (isDraw)
-                return 20;
+            {
+                return Boards[0, 0] + Boards[0, 1] + Boards[0, 2] + Boards[1, 0] + Boards[1,1] + Boards[1, 2] + Boards[2, 0] + Boards[2, 1] + Boards[2, 2] > 0 ? 1 : -1;
+                //return 20;
+            }
             else
                 return 0;
         }

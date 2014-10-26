@@ -116,7 +116,7 @@ namespace Mighty_Tick_Tac_Toe
         private void singlePlayerBtn_Click(object sender, RoutedEventArgs e)
         {
             NavigationParams parameters = new NavigationParams();
-            parameters.mode = GameMode.AI_LVL_2;
+            parameters.mode = GameMode.AI_LVL_3;
             this.Frame.Navigate(typeof(GamePage), parameters);
         }
 
