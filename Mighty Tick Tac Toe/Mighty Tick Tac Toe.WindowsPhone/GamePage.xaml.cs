@@ -430,6 +430,35 @@ namespace Mighty_Tick_Tac_Toe
                     GameOver(false);
                     break;
 
+                case MoveState.SUCCESS_BOARD_DRAW_GAME_WON:
+
+                    // color the won board
+                    ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
+
+                    // then show the game over popup
+                    GameOver(false);
+                    break;
+
+                case MoveState.SUCCESS_BOARD_DRAW_GAME_LOST:
+
+                    // color the won board
+                    ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
+
+                    // then show the game over popup
+                    currentPlayer = -1 * currentPlayer;
+                    GameOver(false);
+                    break;
+
+                case MoveState.SUCCESS_BOARD_WON_GAME_LOST:
+
+                    // color the won board
+                    ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
+
+                    // then show the game over popup
+                    currentPlayer = -1 * currentPlayer;
+                    GameOver(false);
+                    break;
+
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW:
 
                     ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
