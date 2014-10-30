@@ -94,10 +94,10 @@ namespace Mighty_Tick_Tac_Toe
 
         async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
+            e.Handled = true;
             // if at least one move has been played
             if (lastMoveCol > -1)
             {
-                e.Handled = true;
                 var dialog = new Windows.UI.Popups.MessageDialog("Are you sure you want to leave this game? Your progress will be lost!");
                 bool? exitSelected = null;
                 dialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler((cmd) => exitSelected = true)));
@@ -425,10 +425,11 @@ namespace Mighty_Tick_Tac_Toe
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_ON:
 
-                    // if the winner is not AI, greet the board winner
+                    // if the winner is not AI, color the board then greet the board winner
                     if (!(currentPlayer == -1 && gameMode > GameMode.TwoPlayer))
                     {
                         ShowRandomGreeting();
+                        ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
                         await Task.Delay(TimeSpan.FromSeconds(greetingDurationSec));
                     }
 

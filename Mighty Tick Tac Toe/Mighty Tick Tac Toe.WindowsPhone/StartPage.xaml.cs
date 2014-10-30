@@ -131,5 +131,10 @@ namespace Mighty_Tick_Tac_Toe
         {
             this.Frame.Navigate(typeof(GameRulesPage));
         }
+
+        private void AboutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AboutPage));
+        }
     }
 }

@@ -36,10 +36,12 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Button x:Name="singlePlayerBtn" Grid.Row="2" Width="200" Content="Single Player" HorizontalAlignment="Center" VerticalAlignment="Center" Click="singlePlayerBtn_Click"/>
             <Button x:Name="MultiplayerBtn" Grid.Row="3" Width="200" Content="Multiplayer" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MultiplayerBtn_Click"/>
             <Button x:Name="GameRulesBtn" Grid.Row="4" Width="200" Content="Game Rules" HorizontalAlignment="Center" VerticalAlignment="Center" Click="GameRulesBtn_Click"/>
+            <Button x:Name="AboutBtn" Grid.Row="6" Width="200" Content="About Game" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AboutBtn_Click"/>
         </Grid>
     </Grid>
 </Page>
