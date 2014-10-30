@@ -51,10 +51,5 @@
         <Image Name="LastTurnImg" Visibility="Collapsed" Source="Assets/lastTurn.png" Grid.Row="2" Height="60" Width="60" VerticalAlignment="Center" Tapped="TurnImg_Tapped" HorizontalAlignment="Center" Grid.Column="0" />
         <Image Name="TurnImg" Source="Assets/xturn.png" Grid.Row="2" Height="50" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1" />
         <TextBox Name="StatusText" Visibility="Collapsed" Grid.Row="2" Background="Black" Foreground="White" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Bottom" Width="360" Height="40" Grid.ColumnSpan="2"/>
-
-        <MediaElement Name="ButtonXSound" AudioCategory="GameEffects" Source="Assets/Sounds/Tap1.wav" Volume="0.5" AutoPlay="False" />
-        <MediaElement Name="ButtonOSound" AudioCategory="GameEffects" Source="Assets/Sounds/Tap2.wav" Volume="0.5" AutoPlay="False" />
-        <MediaElement Name="BoardWonSound" AudioCategory="GameEffects" Source="Assets/Sounds/boardWon.wav" Volume="5" AutoPlay="False" />
-        <MediaElement Name="GameWonSound" AudioCategory="GameEffects" Source="Assets/Sounds/gameWon.wav" Volume="5" AutoPlay="False" />
     </Grid>
 </Page>

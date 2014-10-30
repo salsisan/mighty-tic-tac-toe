@@ -62,6 +62,8 @@ namespace Mighty_Tick_Tac_Toe
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
         bool soundEffectsEnabled = true;
 
+        WavePlayer wavePlayer = new WavePlayer();
+
         bool UIEnabled = true;
 
         enum GameColor
@@ -79,6 +81,10 @@ namespace Mighty_Tick_Tac_Toe
         {
             this.InitializeComponent();
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            wavePlayer.AddWave("playerX", "Assets/Sounds/Tap1.wav");
+            wavePlayer.AddWave("playerO", "Assets/Sounds/Tap2.wav");
+            wavePlayer.AddWave("boardWon", "Assets/Sounds/boardWon.wav");
+            wavePlayer.AddWave("gameWon", "Assets/Sounds/gameWon.wav");
         }
 
         void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
@@ -375,19 +381,15 @@ namespace Mighty_Tick_Tac_Toe
 
                 if (soundEffectsEnabled)
                 {
-                    try
+                    // play the corresponding sound effect
+                    if (currentPlayer == 1)
                     {
-                        // play the corresponding sound effect
-                        if (currentPlayer == 1)
-                        {
-                            ButtonXSound.Play();
-                        }
-                        else
-                        {
-                            ButtonOSound.Play();
-                        }
+                        wavePlayer.PlayWave("playerX");
                     }
-                    catch (Exception) { }
+                    else
+                    {
+                        wavePlayer.PlayWave("playerO");
+                    }
                 }
             }
 
@@ -455,7 +457,6 @@ namespace Mighty_Tick_Tac_Toe
                     UIEnabled = false;
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble()));
-                    turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
                     switch (gameMode)
                     {
@@ -474,6 +475,7 @@ namespace Mighty_Tick_Tac_Toe
                             Cr = -1;
                             break;
                     }
+                    turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
                     if (cc != -1)
                     {
@@ -510,12 +512,8 @@ namespace Mighty_Tick_Tac_Toe
         {
             if (soundEffectsEnabled)
             {
-                try
-                {
-                    // play game over music
-                    GameWonSound.Play();
-                }
-                catch (Exception) { }
+                // play game over music
+                wavePlayer.PlayWave("gameWon");
             }
 
             // show game over popup
@@ -575,11 +573,7 @@ namespace Mighty_Tick_Tac_Toe
             if (soundEffectsEnabled)
             {
                 // play board won sound
-                try
-                {
-                    BoardWonSound.Play();
-                }
-                catch (Exception) { }
+                wavePlayer.PlayWave("boardWon");
             }
 
             Image greetingImg = new Image();
