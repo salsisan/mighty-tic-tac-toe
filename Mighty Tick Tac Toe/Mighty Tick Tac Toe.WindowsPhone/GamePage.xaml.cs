@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -80,15 +81,36 @@ namespace Mighty_Tick_Tac_Toe
         public GamePage()
         {
             this.InitializeComponent();
-            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             wavePlayer.AddWave("playerX", "Assets/Sounds/Tap1.wav");
             wavePlayer.AddWave("playerO", "Assets/Sounds/Tap2.wav");
             wavePlayer.AddWave("boardWon", "Assets/Sounds/boardWon.wav");
             wavePlayer.AddWave("gameWon", "Assets/Sounds/gameWon.wav");
         }
 
-        void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+        }
+
+        async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            // if at least one move has been played
+            if (lastMoveCol > -1)
+            {
+                e.Handled = true;
+                var dialog = new Windows.UI.Popups.MessageDialog("Are you sure you want to leave this game? Your progress will be lost!");
+                bool? exitSelected = null;
+                dialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler((cmd) => exitSelected = true)));
+                dialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler((cmd) => exitSelected = false)));
+                await dialog.ShowAsync();
+
+                if (exitSelected.HasValue && !exitSelected.Value)
+                {
+                    e.Handled = true;
+                    return;
+                }
+            }
+
             if (Frame.CanGoBack)
             {
                 Frame.GoBack();
@@ -104,6 +126,7 @@ namespace Mighty_Tick_Tac_Toe
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             NavigationParams parameters = e.Parameter as NavigationParams;
             if (parameters != null)
             {
@@ -406,6 +429,7 @@ namespace Mighty_Tick_Tac_Toe
                     if (!(currentPlayer == -1 && gameMode > GameMode.TwoPlayer))
                     {
                         ShowRandomGreeting();
+                        await Task.Delay(TimeSpan.FromSeconds(greetingDurationSec));
                     }
 
                     // color the won board
