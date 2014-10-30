@@ -261,9 +261,13 @@ namespace Mighty_Tick_Tac_Toe
                 MoveState res = localEngine.PlayMove(player, availableBc[i], availableBr[i], availableCc[i], availableCr[i]);
                 localAge++;
 
-                if (res == MoveState.SUCCESS_BOARD_WON_GAME_WON)
+                if (res == MoveState.SUCCESS_BOARD_WON_GAME_WON || res == MoveState.SUCCESS_BOARD_DRAW_GAME_WON)
                 {
                     score = 1;
+                }
+                else if (res == MoveState.SUCCESS_BOARD_WON_GAME_LOST || res == MoveState.SUCCESS_BOARD_DRAW_GAME_LOST)
+                {
+                    score = -1;
                 }
                 else if (!localEngine.IsSuccess(res))
                 {

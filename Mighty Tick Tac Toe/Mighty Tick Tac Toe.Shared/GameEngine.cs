@@ -18,8 +18,11 @@ namespace Mighty_Tick_Tac_Toe
         SUCCESS_BOARD_WON_GAME_ON,
         SUCCESS_BOARD_WON_GAME_WON,
         SUCCESS_BOARD_WON_GAME_DRAW,
+        SUCCESS_BOARD_WON_GAME_LOST,
         SUCCESS_BOARD_DRAW_GAME_ON,
-        SUCCESS_BOARD_DRAW_GAME_DRAW
+        SUCCESS_BOARD_DRAW_GAME_WON,
+        SUCCESS_BOARD_DRAW_GAME_DRAW,
+        SUCCESS_BOARD_DRAW_GAME_LOST
     }
 
     public class GameEngine
@@ -113,6 +116,11 @@ namespace Mighty_Tick_Tac_Toe
                     gameFinished = true;
                     return MoveState.SUCCESS_BOARD_WON_GAME_DRAW;
                 }
+                else if (boardResult == -1 * player)
+                {
+                    gameFinished = true;
+                    return MoveState.SUCCESS_BOARD_WON_GAME_LOST;
+                }
                 else
                 {
                     return MoveState.SUCCESS_BOARD_WON_GAME_ON;
@@ -156,14 +164,23 @@ namespace Mighty_Tick_Tac_Toe
                     }
                 }
 
-                if (boardResult == 20)
+                if (boardResult == player)
+                {
+                    gameFinished = true;
+                    return MoveState.SUCCESS_BOARD_DRAW_GAME_WON;
+                }
+                else if (boardResult == 20)
                 {
                     gameFinished = true;
                     return MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW;
                 }
-                else
+                else if (boardResult == -1 * player)
                 {
                     gameFinished = true;
+                    return MoveState.SUCCESS_BOARD_DRAW_GAME_LOST;
+                }
+                else
+                {
                     return MoveState.SUCCESS_BOARD_DRAW_GAME_ON;
                 }
             }
@@ -208,8 +225,10 @@ namespace Mighty_Tick_Tac_Toe
 
             if (isDraw)
             {
+                if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] + Boards[1, 0] + Boards[1, 1] + Boards[1, 2] + Boards[2, 0] + Boards[2, 1] + Boards[2, 2] > 9)
+                    return 20;
+
                 return Boards[0, 0] + Boards[0, 1] + Boards[0, 2] + Boards[1, 0] + Boards[1,1] + Boards[1, 2] + Boards[2, 0] + Boards[2, 1] + Boards[2, 2] > 0 ? 1 : -1;
-                //return 20;
             }
             else
                 return 0;
