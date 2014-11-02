@@ -11,7 +11,7 @@
     <Grid Name="CanvasGrid" Margin="20, 0, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
-            <RowDefinition Height="400" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
         <ProgressBar Name="turnProgressBar" Width="50" Height="10" Visibility="Collapsed" VerticalAlignment="Bottom" IsIndeterminate="True" Grid.ColumnSpan="2" Grid.Row="0" />
         <Image Name="AudioIcon" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="40" Source="Assets/AudioOn.png" Tapped="AudioIcon_Tapped" />
-        <Grid Name="GameGrid" Height="350" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.ColumnSpan="2" >
+        <Grid Name="GameGrid" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.ColumnSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

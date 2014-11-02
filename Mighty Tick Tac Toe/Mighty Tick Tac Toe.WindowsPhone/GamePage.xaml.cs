@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -48,17 +49,16 @@ namespace Mighty_Tick_Tac_Toe
         double appMargin = 20;
         int rows = 9, cols = 9;
         double imgToCellPerc = 0.8;
-        double inAnimationDurationSec = 0.4;
-        EasingFunctionBase popInEasing = new BackEase();
-        EasingFunctionBase popOutEasing = new BackEase();
         List<Storyboard> flashStoryboards = new List<Storyboard>();
         string xturnSrc = "Assets/xturn.png";
         string oturnSrc = "Assets/oturn.png";
         GameMode gameMode = GameMode.TwoPlayer;
         int greetingImgWidth = 220;
         int greetingImgHeight = 75;
-        int gameOverImgWidth = 280;
-        int gameOverImgHeight = 180;
+        int gameOverImgWidth = 284;
+        int gameOverImgHeight = 153;
+        int newGameImgWidth = 200;
+        int newGameImgHeight = 70;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
         bool soundEffectsEnabled = true;
@@ -167,7 +167,7 @@ namespace Mighty_Tick_Tac_Toe
             cellWidth = GameGrid.Width / cols;
             imgHeight = cellHeight * imgToCellPerc;
             imgWidth = cellWidth * imgToCellPerc;
-            popOutEasing.EasingMode = EasingMode.EaseInOut;
+            Animations.popOutEasing.EasingMode = EasingMode.EaseInOut;
 
             for (int i = 0; i < 9; ++i)
             {
@@ -234,7 +234,7 @@ namespace Mighty_Tick_Tac_Toe
             Grid.SetRow(img, row);
             Grid.SetColumn(img, col);
 
-            PopImage(
+            Animations.PopUIElement(
                 img,
                 0,
                 imgToCellPerc,
@@ -244,69 +244,7 @@ namespace Mighty_Tick_Tac_Toe
                 (1 - imgToCellPerc) / 2 * cellWidth,
                 0.5 * cellHeight,
                 (1 - imgToCellPerc) / 2 * cellHeight,
-                popInEasing);
-        }
-
-        private void PopImage(
-            Image img,
-            double scaleWidthFrom,
-            double scaleWidthTo,
-            double scaleHeightFrom,
-            double scaleHeightTo,
-            double moveWidthFrom,
-            double moveWidthTo,
-            double moveHeightFrom,
-            double moveHeightTo,
-            EasingFunctionBase easingFunc)
-        {
-            // animation
-            img.RenderTransform = new CompositeTransform();
-            Storyboard sb = new Storyboard();
-            DoubleAnimation scalex = new DoubleAnimation()
-            {
-                From = scaleWidthFrom,
-                To = scaleWidthTo,
-                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
-                EasingFunction = easingFunc
-            };
-            DoubleAnimation scaley = new DoubleAnimation()
-            {
-                From = scaleHeightFrom,
-                To = scaleHeightTo,
-                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
-                EasingFunction = easingFunc
-            };
-            DoubleAnimation movex = new DoubleAnimation()
-            {
-                // move from the center of the cell to its left
-                From = moveWidthFrom,
-                To = moveWidthTo,
-                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
-                EasingFunction = easingFunc
-            };
-            DoubleAnimation movey = new DoubleAnimation()
-            {
-                // move from the center of the cell to its top
-                From = moveHeightFrom,
-                To = moveHeightTo,
-                Duration = TimeSpan.FromSeconds(inAnimationDurationSec),
-                EasingFunction = easingFunc
-            };
-            sb.Children.Add(scalex);
-            sb.Children.Add(scaley);
-            Storyboard.SetTargetProperty(scalex, "(UIElement.RenderTransform).(ScaleTransform.ScaleX)");
-            Storyboard.SetTargetProperty(scaley, "(UIElement.RenderTransform).(ScaleTransform.ScaleY)");
-            Storyboard.SetTarget(scalex, img);
-            Storyboard.SetTarget(scaley, img);
-
-            sb.Children.Add(movex);
-            sb.Children.Add(movey);
-            Storyboard.SetTargetProperty(movex, "(UIElement.RenderTransform).(CompositeTransform.TranslateX)");
-            Storyboard.SetTargetProperty(movey, "(UIElement.RenderTransform).(CompositeTransform.TranslateY)");
-            Storyboard.SetTarget(movex, img);
-            Storyboard.SetTarget(movey, img);
-
-            sb.Begin();
+                Animations.popInEasing);
         }
 
         void TranslateToVirtualGridCoord(ref int coord)
@@ -328,6 +266,20 @@ namespace Mighty_Tick_Tac_Toe
             TranslateToVirtualGridCoord(ref gr);
             TranslateToVirtualGridCoord(ref gc);
 
+            //if (gr == 0 && gc == 0)
+            //{
+            //    lastMoveState = MoveState.SUCCESS_BOARD_DRAW_GAME_WON;
+            //}
+            //if (gr == 0 && gc == 8)
+            //{
+            //    lastMoveState = MoveState.SUCCESS_BOARD_DRAW_GAME_LOST;
+            //}
+            //if (gr == 8 && gc == 8)
+            //{
+            //    lastMoveState = MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW;
+            //}
+            //GameOver();
+
             int br = gr / 3;
             int bc = gc / 3;
 
@@ -347,20 +299,21 @@ namespace Mighty_Tick_Tac_Toe
                 LastTurnImg.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
 
-            lastMoveRow = gr;
-            lastMoveCol = gc;
-
             lastMoveState = game.PlayMove(currentPlayer, bc, br, cc, cr);
 
-            if (lastMoveState >= MoveState.SUCCESS_GAME_ON)
+            if (game.IsMoveSuccess(lastMoveState))
             {
+                // save this as the last move
+                lastMoveRow = gr;
+                lastMoveCol = gc;
+
                 // stop any flash animations
                 ClearFlashing();
 
                 // display turn tip for the *next* player
                 //AnimateYourTurn();
                 TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
-                PopImage(
+                Animations.PopUIElement(
                     TurnImg,
                     0,
                     1,
@@ -370,7 +323,7 @@ namespace Mighty_Tick_Tac_Toe
                     0,
                     0.5 * turnImgHeight,
                     0,
-                    popInEasing);
+                    Animations.popInEasing);
 
                 // flash viable boards for next turn
                 if (game.NextBoardCol == -1)
@@ -397,7 +350,7 @@ namespace Mighty_Tick_Tac_Toe
 
             StatusText.Text = lastMoveState.ToString();
 
-            if (game.IsSuccess(lastMoveState))
+            if (game.IsMoveSuccess(lastMoveState))
             {
                 // put an X/O
                 // get original cell coords first
@@ -444,7 +397,7 @@ namespace Mighty_Tick_Tac_Toe
                     ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
 
                     // then show the game over (draw) popup
-                    GameOver(true);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_WON:
@@ -453,7 +406,7 @@ namespace Mighty_Tick_Tac_Toe
                     ColorBoard(bc, br, (currentPlayer == 1) ? GetColor(GameColor.BoardWonX) : GetColor(GameColor.BoardWonO));
 
                     // then show the game over popup
-                    GameOver(false);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_WON:
@@ -462,7 +415,7 @@ namespace Mighty_Tick_Tac_Toe
                     ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
 
                     // then show the game over popup
-                    GameOver(false);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_LOST:
@@ -472,7 +425,7 @@ namespace Mighty_Tick_Tac_Toe
 
                     // then show the game over popup
                     currentPlayer = -1 * currentPlayer;
-                    GameOver(false);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_WON_GAME_LOST:
@@ -482,7 +435,7 @@ namespace Mighty_Tick_Tac_Toe
 
                     // then show the game over popup
                     currentPlayer = -1 * currentPlayer;
-                    GameOver(false);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW:
@@ -490,7 +443,7 @@ namespace Mighty_Tick_Tac_Toe
                     ColorBoard(bc, br, GetColor(GameColor.BoardDraw));
 
                     // then show the game over (draw) popup
-                    GameOver(true);
+                    GameOver();
                     break;
 
                 case MoveState.SUCCESS_BOARD_DRAW_GAME_ON:
@@ -564,9 +517,14 @@ namespace Mighty_Tick_Tac_Toe
             }
         }
 
-        private void GameOver(bool draw)
+        private void GameOver()
         {
-            lastMoveState = MoveState.GAME_OVER;
+
+            // update playing stats if match was against AI
+            if (IsMatchAgainstAI())
+            {
+                game.UpdateStats(lastMoveState);
+            }
 
             if (soundEffectsEnabled)
             {
@@ -575,10 +533,11 @@ namespace Mighty_Tick_Tac_Toe
             }
 
             // show game over popup
+            bool draw = game.IsGameDraw(lastMoveState);
             Image gameOverImg = new Image()
             {
                 Source = new BitmapImage(new Uri(
-                this.BaseUri, draw ? "Assets/gameoverDraw.png" : currentPlayer == 1 ? "Assets/gameoverX.png" : "Assets/gameoverO.png")),
+                this.BaseUri, "Assets/" + (draw ? "gameoverDraw.png" : currentPlayer == 1 ? "gameoverX.png" : "gameoverO.png"))),
                 Height = gameOverImgHeight,
                 Width = gameOverImgWidth
             };
@@ -587,7 +546,7 @@ namespace Mighty_Tick_Tac_Toe
             CanvasGrid.Children.Add(gameOverImg);
             Grid.SetRow(gameOverImg, 1);
             Grid.SetColumnSpan(gameOverImg, 2);
-            PopImage(
+            Animations.PopUIElement(
                 gameOverImg,
                 0,
                 1,
@@ -597,9 +556,36 @@ namespace Mighty_Tick_Tac_Toe
                 0,
                 0.5 * gameOverImgHeight,
                 0,
-                popInEasing);
-
+                Animations.popInEasing);
             gameOverImg.Tapped += gameOverImg_Tapped;
+
+            // show new game popup
+            Image newGameImg = new Image()
+            {
+                Source = new BitmapImage(new Uri(this.BaseUri, "Assets/newGame.png")),
+                Height = newGameImgHeight,
+                Width = newGameImgWidth,
+                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Bottom
+            };
+
+            Canvas.SetZIndex(newGameImg, 100);
+            CanvasGrid.Children.Add(newGameImg);
+            Grid.SetRow(newGameImg, 2);
+            Grid.SetColumnSpan(newGameImg, 2);
+            Animations.PopUIElement(
+                newGameImg,
+                0,
+                1,
+                0,
+                1,
+                0.5 * newGameImgWidth,
+                0,
+                0.5 * newGameImgHeight,
+                0,
+                Animations.popInEasing);
+            newGameImg.Tapped += newGameImg_Tapped;
+
+            Animations.SlideUIElement(newGameImg);
 
             // hide next turn popup
             TurnImg.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -609,9 +595,32 @@ namespace Mighty_Tick_Tac_Toe
 
             // stop all flashing cells
             ClearFlashing();
+
+            lastMoveState = MoveState.GAME_OVER;
+
+        }
+
+        private bool IsMatchAgainstAI()
+        {
+            return gameMode > GameMode.TwoPlayer;
         }
 
         void gameOverImg_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Animations.PopUIElement(
+                sender as Image,
+                1,
+                0,
+                1,
+                0,
+                0,
+                0.5 * gameOverImgWidth,
+                0,
+                0.5 * gameOverImgHeight,
+                Animations.popOutEasing);
+        }
+
+        void newGameImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
             NavigationParams parameters = new NavigationParams();
             parameters.mode = gameMode;
@@ -636,9 +645,9 @@ namespace Mighty_Tick_Tac_Toe
             Grid.SetColumnSpan(greetingImg, 2);
             Canvas.SetZIndex(greetingImg, 10);
 
-            PopImage(greetingImg, 0, 1, 0, 1, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, 0, popInEasing);
+            Animations.PopUIElement(greetingImg, 0, 1, 0, 1, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, 0, Animations.popInEasing);
             await Task.Delay(TimeSpan.FromSeconds(greetingDurationSec));
-            PopImage(greetingImg, 1, 0, 1, 0, 0, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, popOutEasing);
+            Animations.PopUIElement(greetingImg, 1, 0, 1, 0, 0, 0.5 * greetingImgWidth, 0, 0.5 * greetingImgHeight, Animations.popOutEasing);
         }
 
         void FlashCell(UIElement target)
@@ -664,7 +673,7 @@ namespace Mighty_Tick_Tac_Toe
         void AnimateYourTurn()
         {
             TurnImg.Source = new BitmapImage(new Uri(this.BaseUri, currentPlayer == 1 ? oturnSrc : xturnSrc));
-            PopImage(
+            Animations.PopUIElement(
                 TurnImg,
                 0.7,
                 1,
@@ -673,7 +682,7 @@ namespace Mighty_Tick_Tac_Toe
                 0.5 * turnImgWidth,
                 0,
                 0.5 * turnImgHeight,
-                0, popInEasing);
+                0, Animations.popInEasing);
         }
 
         private async void TurnImg_Tapped(object sender, TappedRoutedEventArgs e)
@@ -684,7 +693,7 @@ namespace Mighty_Tick_Tac_Toe
             // disable UI so that user can't interrupt the pop back animation
             UIEnabled = false;
 
-            PopImage(imgs[lastMoveRow, lastMoveCol],
+            Animations.PopUIElement(imgs[lastMoveRow, lastMoveCol],
                 imgToCellPerc,
                 1.5,
                 imgToCellPerc,
@@ -693,11 +702,11 @@ namespace Mighty_Tick_Tac_Toe
                 -0.25 * cellWidth,
                 (1 - imgToCellPerc) / 2 * cellHeight,
                 -0.25 * cellHeight,
-                popInEasing);
+                Animations.popInEasing);
 
             await Task.Delay(TimeSpan.FromSeconds(1));
 
-            PopImage(imgs[lastMoveRow, lastMoveCol],
+            Animations.PopUIElement(imgs[lastMoveRow, lastMoveCol],
                 1.5,
                 imgToCellPerc,
                 1.5,
@@ -706,7 +715,7 @@ namespace Mighty_Tick_Tac_Toe
                 (1 - imgToCellPerc) / 2 * cellWidth,
                 -0.25 * cellHeight,
                 (1 - imgToCellPerc) / 2 * cellHeight,
-                popInEasing);
+                Animations.popInEasing);
 
             UIEnabled = true;
         }

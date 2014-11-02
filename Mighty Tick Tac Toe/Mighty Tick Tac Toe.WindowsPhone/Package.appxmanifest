@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="77ad563e-d87e-45d8-acfa-6004673aba04" Publisher="CN=Administrator" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="77ad563e-d87e-45d8-acfa-6004673aba04" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="A1E4E8C3-C0AD-44FC-B070-C54F379D9450" Publisher="CN=Administrator" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="b1b4f7e3-9252-439e-80fc-d78ef5c07bfa" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Mighty Tick Tac Toe.WindowsPhone</DisplayName>
     <PublisherDisplayName>Administrator</PublisherDisplayName>

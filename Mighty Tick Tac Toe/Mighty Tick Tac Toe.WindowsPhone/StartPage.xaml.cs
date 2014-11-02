@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -32,6 +33,7 @@ namespace Mighty_Tick_Tac_Toe
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        int wins = 0, losses = 0, draws = 0, winStreak = 0, longestWinStreak = 0;
 
         public StartPage()
         {
@@ -40,6 +42,18 @@ namespace Mighty_Tick_Tac_Toe
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
+
+            UpdateStatsTextBoxes();
+        }
+
+        private void UpdateStatsTextBoxes()
+        {
+            GameEngine.GetStats(ref wins, ref losses, ref draws, ref winStreak, ref longestWinStreak);
+            StatsWinsTxt.Text = wins.ToString();
+            StatsLossesTxt.Text = losses.ToString();
+            StatsDrawsTxt.Text = draws.ToString();
+            StatsWinStreakTxt.Text = winStreak.ToString();
+            StatsLongestWinStreakTxt.Text = longestWinStreak.ToString();
         }
 
         /// <summary>
@@ -143,6 +157,26 @@ namespace Mighty_Tick_Tac_Toe
         private void AboutBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(AboutPage));
+        }
+
+        private void StatsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (StatsPanel.Visibility == Windows.UI.Xaml.Visibility.Collapsed)
+            {
+                StatsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                StatsBtn.Content = "Hide Game Stats";
+            }
+            else
+            {
+                StatsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatsBtn.Content = "Show Game Stats";
+            }
+        }
+
+        private void ResetStatsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GameEngine.ResetStats();
+            UpdateStatsTextBoxes();
         }
     }
 }
