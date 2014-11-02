@@ -292,6 +292,7 @@ namespace Mighty_Tick_Tac_Toe
 
         async void PlayMove(int gc, int gr, int bc, int br, int cc, int cr, Boolean isHuman)
         {
+            UIEnabled = false;
             // show last turn icon if this is the very first move
             if (lastMoveCol == -1 || lastMoveRow == -1)
             {
@@ -455,13 +456,13 @@ namespace Mighty_Tick_Tac_Toe
             if (game.IsSuccessAndGameON(lastMoveState))
             {
                 currentPlayer *= -1;
+                //System.Diagnostics.Debug.WriteLine("Current player " + currentPlayer);
 
                 if (isHuman && gameMode > GameMode.TwoPlayer)
                 {
                     int Cc, Cr;
 
                     // sleep pretend we're thinking
-                    UIEnabled = false;
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     // Wait for AI to finish rendering
                     await Task.Delay(TimeSpan.FromSeconds(1));
@@ -489,10 +490,9 @@ namespace Mighty_Tick_Tac_Toe
                     {
                         PlayMove(cc * 3 + Cc, cr * 3 + Cr, cc, cr, Cc, Cr, false);
                     }
-
-                    UIEnabled = true;
                 }
             }
+            UIEnabled = true;
         }
 
         private void ClearFlashing()
