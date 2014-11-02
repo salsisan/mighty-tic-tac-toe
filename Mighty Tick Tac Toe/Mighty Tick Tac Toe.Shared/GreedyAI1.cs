@@ -115,7 +115,8 @@ namespace Mighty_Tick_Tac_Toe
                 //}
                 else
                 {
-                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 4);
+                    // depth 4 is better but sometimes significantly slower 
+                    PlayBestGlobalMove(Cells, player, ref Bc, ref Br, out Cc, out Cr, ref age, 3);
                 }
                  
             }
@@ -258,6 +259,8 @@ namespace Mighty_Tick_Tac_Toe
                 localEngine.NextPlayer = player;
                 int cc, cr;
                 Array.Copy(Cells, localEngine.Cells, Cells.Length);
+                // do not call the next line for a less smart AI
+                localEngine.recalculateBoards();
                 MoveState res = localEngine.PlayMove(player, availableBc[i], availableBr[i], availableCc[i], availableCr[i]);
                 localAge++;
 

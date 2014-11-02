@@ -188,6 +188,49 @@ namespace Mighty_Tick_Tac_Toe
             return MoveState.SUCCESS_GAME_ON;
         }
 
+        public void recalculateBoards()
+        {
+            for (int Bc = 0; Bc < 3; Bc++)
+            {
+                for (int Br = 0; Br < 3; Br++)
+                {
+                    if (Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 0, 2] == 3 ||
+                        Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 1, 2] == 3 ||
+                        Cells[Bc, Br, 2, 0] + Cells[Bc, Br, 2, 1] + Cells[Bc, Br, 2, 2] == 3 ||
+                        Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 2, 0] == 3 ||
+                        Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 1] == 3 ||
+                        Cells[Bc, Br, 0, 2] + Cells[Bc, Br, 1, 2] + Cells[Bc, Br, 2, 2] == 3 ||
+                        Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 2] == 3 ||
+                        Cells[Bc, Br, 0, 2] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 0] == 3
+                        )
+                    {
+                        Boards[Bc, Br] = 1;
+                    }
+                    else if (Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 0, 2] == -3 ||
+                        Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 1, 2] == -3 ||
+                        Cells[Bc, Br, 2, 0] + Cells[Bc, Br, 2, 1] + Cells[Bc, Br, 2, 2] == -3 ||
+                        Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 1, 0] + Cells[Bc, Br, 2, 0] == -3 ||
+                        Cells[Bc, Br, 0, 1] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 1] == -3 ||
+                        Cells[Bc, Br, 0, 2] + Cells[Bc, Br, 1, 2] + Cells[Bc, Br, 2, 2] == -3 ||
+                        Cells[Bc, Br, 0, 0] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 2] == -3 ||
+                        Cells[Bc, Br, 0, 2] + Cells[Bc, Br, 1, 1] + Cells[Bc, Br, 2, 0] == -3
+                        )
+                    {
+                        Boards[Bc, Br] = -1;
+                    }
+                    else if (Cells[Bc, Br, 0, 0] == 0 || Cells[Bc, Br, 0, 1] == 0 ||Cells[Bc, Br, 0, 2] == 0 ||
+                        Cells[Bc, Br, 1, 0] == 0 || Cells[Bc, Br, 1, 1] == 0 ||Cells[Bc, Br, 1, 2] == 0 ||
+                        Cells[Bc, Br, 2, 0] == 0 || Cells[Bc, Br, 2, 1] == 0 ||Cells[Bc, Br, 2, 2] == 0 )
+                    {
+                        Boards[Bc, Br] = 0;
+                    }
+                    else
+                    {
+                        Boards[Bc, Br] = 20;
+                    }
+                }
+            }
+        }
         private int CheckBoards()
         {
             if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] == 3 ||

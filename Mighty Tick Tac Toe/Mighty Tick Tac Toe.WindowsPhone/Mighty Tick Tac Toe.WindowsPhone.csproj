@@ -108,7 +108,6 @@
   <ItemGroup>
     <Content Include="Assets\audioOff.png" />
     <Content Include="Assets\audioOn.png" />
-    <Content Include="Assets\book.png" />
     <Content Include="Assets\gameoverDraw.png" />
     <Content Include="Assets\gameoverO.png" />
     <Content Include="Assets\gameoverX.png" />
