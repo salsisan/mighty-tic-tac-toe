@@ -57,11 +57,12 @@ namespace Mighty_Tick_Tac_Toe
         GameMode gameMode = GameMode.TwoPlayer;
         int greetingImgWidth = 220;
         int greetingImgHeight = 75;
-        int gameOverImgWidth = 250;
-        int gameOverImgHeight = 125;
+        int gameOverImgWidth = 280;
+        int gameOverImgHeight = 180;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
         bool soundEffectsEnabled = true;
+        MoveState lastMoveState = MoveState.SUCCESS_GAME_ON;
 
         WavePlayer wavePlayer = new WavePlayer();
 
@@ -95,8 +96,8 @@ namespace Mighty_Tick_Tac_Toe
         async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
             e.Handled = true;
-            // if at least one move has been played
-            if (lastMoveCol > -1)
+            // if at least one move has been played, and the game is still running
+            if (lastMoveCol > -1 && lastMoveState != MoveState.GAME_OVER)
             {
                 var dialog = new Windows.UI.Popups.MessageDialog("Are you sure you want to leave this game? Your progress will be lost!");
                 bool? exitSelected = null;
@@ -113,9 +114,9 @@ namespace Mighty_Tick_Tac_Toe
 
             if (Frame.CanGoBack)
             {
-                Frame.GoBack();
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
+                Frame.Navigate(typeof(StartPage));
             }
         }
 
@@ -318,7 +319,7 @@ namespace Mighty_Tick_Tac_Toe
 
         void CellTapped(object sender, TappedRoutedEventArgs args)
         {
-            if (!UIEnabled)
+            if (!UIEnabled || lastMoveState == MoveState.GAME_OVER)
                 return;
 
             int gr = Grid.GetRow(sender as FrameworkElement);
@@ -349,9 +350,9 @@ namespace Mighty_Tick_Tac_Toe
             lastMoveRow = gr;
             lastMoveCol = gc;
 
-            var result = game.PlayMove(currentPlayer, bc, br, cc, cr);
+            lastMoveState = game.PlayMove(currentPlayer, bc, br, cc, cr);
 
-            if (result >= MoveState.SUCCESS_GAME_ON)
+            if (lastMoveState >= MoveState.SUCCESS_GAME_ON)
             {
                 // stop any flash animations
                 ClearFlashing();
@@ -394,9 +395,9 @@ namespace Mighty_Tick_Tac_Toe
                 }
             }
 
-            StatusText.Text = result.ToString();
+            StatusText.Text = lastMoveState.ToString();
 
-            if (game.IsSuccess(result))
+            if (game.IsSuccess(lastMoveState))
             {
                 // put an X/O
                 // get original cell coords first
@@ -416,7 +417,7 @@ namespace Mighty_Tick_Tac_Toe
                 }
             }
 
-            switch (result)
+            switch (lastMoveState)
             {
                 case MoveState.SUCCESS_GAME_ON:
 
@@ -499,7 +500,7 @@ namespace Mighty_Tick_Tac_Toe
                     break;
             }
 
-            if (game.IsSuccessAndGameON(result))
+            if (game.IsSuccessAndGameON(lastMoveState))
             {
                 currentPlayer *= -1;
 
@@ -564,6 +565,8 @@ namespace Mighty_Tick_Tac_Toe
 
         private void GameOver(bool draw)
         {
+            lastMoveState = MoveState.GAME_OVER;
+
             if (soundEffectsEnabled)
             {
                 // play game over music
@@ -609,17 +612,9 @@ namespace Mighty_Tick_Tac_Toe
 
         void gameOverImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            PopImage(
-                sender as Image,
-                1,
-                0,
-                1,
-                0,
-                0,
-                0.5 * gameOverImgWidth,
-                0,
-                0.5 * gameOverImgHeight,
-                popOutEasing);
+            NavigationParams parameters = new NavigationParams();
+            parameters.mode = gameMode;
+            this.Frame.Navigate(typeof(GamePage), parameters);
         }
 
         private async void ShowRandomGreeting()

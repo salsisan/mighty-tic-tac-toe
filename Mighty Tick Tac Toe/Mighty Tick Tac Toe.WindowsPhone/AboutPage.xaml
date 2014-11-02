@@ -34,7 +34,7 @@
               VerticalScrollMode="Auto"
               VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="20,0,20,39">
-                    <TextBlock Text="Developers" FontSize="25" Padding="0,0,0,10" Foreground="Gray" FontFamily="Gadugi" CharacterSpacing="30" />
+                    <TextBlock Text="Authors" FontSize="25" Padding="0,0,0,10" Foreground="Gray" FontFamily="Gadugi" CharacterSpacing="30" />
                     <TextBlock CharacterSpacing="30" Text="Developed in 2014 by:" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" />
                     <TextBlock Padding="10,0,0,0" CharacterSpacing="30" Text="Suhib Alsisan" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" />
                     <HyperlinkButton Padding="20,0,0,10" CharacterSpacing="30" Content="suhib.alsisan@outlook.com" FontSize="14" FontFamily="Gadugi" Foreground="Blue" />
