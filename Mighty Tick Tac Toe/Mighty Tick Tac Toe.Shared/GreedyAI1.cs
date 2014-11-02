@@ -272,7 +272,7 @@ namespace Mighty_Tick_Tac_Toe
                 {
                     score = -1;
                 }
-                else if (!localEngine.IsSuccess(res))
+                else if (!localEngine.IsMoveSuccess(res))
                 {
                     break;
                 }
@@ -482,6 +482,7 @@ namespace Mighty_Tick_Tac_Toe
             else
                 return 0;
         }
+
         private static void PlayRandomMove(int[, , ,] Cells, int Bc, int Br, out int Cc, out int Cr)
         {
             List<int> CellCol = new List<int>();

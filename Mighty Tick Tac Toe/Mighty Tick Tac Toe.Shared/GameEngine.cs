@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Mighty_Tick_Tac_Toe
 {
@@ -36,10 +38,26 @@ namespace Mighty_Tick_Tac_Toe
         public int NextBoardRow = -1;
         Boolean gameFinished = false;
 
-        public bool IsSuccess(MoveState state)
+        public bool IsMoveSuccess(MoveState state)
         {
             return state >= MoveState.SUCCESS_GAME_ON;
         }
+
+        public bool IsGameWon(MoveState state)
+        {
+            return state == MoveState.SUCCESS_BOARD_DRAW_GAME_WON | state == MoveState.SUCCESS_BOARD_WON_GAME_WON;
+        }
+
+        public bool IsGameLost(MoveState state)
+        {
+            return state == MoveState.SUCCESS_BOARD_DRAW_GAME_LOST | state == MoveState.SUCCESS_BOARD_WON_GAME_LOST;
+        }
+
+        public bool IsGameDraw(MoveState state)
+        {
+            return state == MoveState.SUCCESS_BOARD_DRAW_GAME_DRAW | state == MoveState.SUCCESS_BOARD_WON_GAME_DRAW;
+        }
+
         public bool IsSuccessAndGameON(MoveState state)
         {
             return (state == MoveState.SUCCESS_GAME_ON || state == MoveState.SUCCESS_BOARD_DRAW_GAME_ON || state == MoveState.SUCCESS_BOARD_WON_GAME_ON);
@@ -65,7 +83,7 @@ namespace Mighty_Tick_Tac_Toe
             Cells[Bc, Br, Cc, Cr] = player;
             NextPlayer *= -1;
 
-            if(Boards[Cc,Cr] == 0)
+            if (Boards[Cc, Cr] == 0)
             {
                 NextBoardCol = Cc;
                 NextBoardRow = Cr;
@@ -220,9 +238,9 @@ namespace Mighty_Tick_Tac_Toe
                     {
                         Boards[Bc, Br] = -1;
                     }
-                    else if (Cells[Bc, Br, 0, 0] == 0 || Cells[Bc, Br, 0, 1] == 0 ||Cells[Bc, Br, 0, 2] == 0 ||
-                        Cells[Bc, Br, 1, 0] == 0 || Cells[Bc, Br, 1, 1] == 0 ||Cells[Bc, Br, 1, 2] == 0 ||
-                        Cells[Bc, Br, 2, 0] == 0 || Cells[Bc, Br, 2, 1] == 0 ||Cells[Bc, Br, 2, 2] == 0 )
+                    else if (Cells[Bc, Br, 0, 0] == 0 || Cells[Bc, Br, 0, 1] == 0 || Cells[Bc, Br, 0, 2] == 0 ||
+                        Cells[Bc, Br, 1, 0] == 0 || Cells[Bc, Br, 1, 1] == 0 || Cells[Bc, Br, 1, 2] == 0 ||
+                        Cells[Bc, Br, 2, 0] == 0 || Cells[Bc, Br, 2, 1] == 0 || Cells[Bc, Br, 2, 2] == 0)
                     {
                         Boards[Bc, Br] = 0;
                     }
@@ -233,6 +251,7 @@ namespace Mighty_Tick_Tac_Toe
                 }
             }
         }
+
         private int CheckBoards()
         {
             if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] == 3 ||
@@ -258,7 +277,7 @@ namespace Mighty_Tick_Tac_Toe
                 return -1;
 
             bool isFull = true;
-            int wins =0;
+            int wins = 0;
             int loses = 0;
             foreach (int i in Boards)
             {
@@ -284,6 +303,80 @@ namespace Mighty_Tick_Tac_Toe
             }
             else
                 return 0;
+        }
+
+        public static void GetStats(ref int wins, ref int losses, ref int draws, ref int winStreak, ref int longestWinStreak)
+        {
+            var data = ApplicationData.Current.LocalSettings;
+
+            // initialize values if it's the first run
+            if (data.Values["wins"] == null)
+            {
+                data.Values["wins"] = 0;
+            }
+            if (data.Values["losses"] == null)
+            {
+                data.Values["losses"] = 0;
+            }
+            if (data.Values["draws"] == null)
+            {
+                data.Values["draws"] = 0;
+            }
+            if (data.Values["winStreak"] == null)
+            {
+                data.Values["winStreak"] = 0;
+            }
+            if (data.Values["longestWinStreak"] == null)
+            {
+                data.Values["longestWinStreak"] = 0;
+            }
+
+            wins = int.Parse(data.Values["wins"].ToString());
+            losses = int.Parse(data.Values["losses"].ToString());
+            draws = int.Parse(data.Values["draws"].ToString());
+            winStreak = int.Parse(data.Values["winStreak"].ToString());
+            longestWinStreak = int.Parse(data.Values["longestWinStreak"].ToString());
+        }
+
+        public void UpdateStats(MoveState lastMoveState)
+        {
+            var data = ApplicationData.Current.LocalSettings;
+            bool won = (NextPlayer == -1 && IsGameWon(lastMoveState))
+                || (NextPlayer == 1 && IsGameLost(lastMoveState));
+            bool lost = (NextPlayer == -1 && IsGameLost(lastMoveState))
+                || (NextPlayer == 1 && IsGameWon(lastMoveState));
+            if (won)
+            {
+                data.Values["wins"] = int.Parse(data.Values["wins"].ToString()) + 1;
+                int winStreak = int.Parse(data.Values["winStreak"].ToString()) + 1;
+                data.Values["winStreak"] = winStreak;
+                int longestWinStreak = int.Parse(data.Values["longestWinStreak"].ToString());
+                if (longestWinStreak < winStreak)
+                {
+                    longestWinStreak = winStreak;
+                }
+                data.Values["longestWinStreak"] = longestWinStreak;
+            }
+            else if (lost)
+            {
+                data.Values["losses"] = int.Parse(data.Values["losses"].ToString()) + 1;
+                data.Values["winStreak"] = 0;
+            }
+            else
+            {
+                data.Values["draws"] = int.Parse(data.Values["draws"].ToString()) + 1;
+                data.Values["winStreak"] = 0;
+            }
+        }
+
+        public static void ResetStats()
+        {
+            var data = ApplicationData.Current.LocalSettings;
+            data.Values["wins"] = 0;
+            data.Values["losses"] = 0;
+            data.Values["draws"] = 0;
+            data.Values["winStreak"] = 0;
+            data.Values["longestWinStreak"] = 0;
         }
     }
 }
