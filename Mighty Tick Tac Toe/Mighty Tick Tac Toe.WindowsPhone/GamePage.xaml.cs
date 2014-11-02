@@ -286,8 +286,6 @@ namespace Mighty_Tick_Tac_Toe
             int cr = gr % 3;
             int cc = gc % 3;
 
-            int player = currentPlayer;
-
             PlayMove(gc, gr, bc, br, cc, cr, true);
         }
 
