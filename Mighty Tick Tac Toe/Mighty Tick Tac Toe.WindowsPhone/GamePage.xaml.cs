@@ -511,7 +511,8 @@ namespace Mighty_Tick_Tac_Toe
                     // sleep pretend we're thinking
                     UIEnabled = false;
                     turnProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    await Task.Delay(TimeSpan.FromSeconds(new Random().NextDouble()));
+                    // Wait for AI to finish rendering
+                    await Task.Delay(TimeSpan.FromSeconds(1));
 
                     switch (gameMode)
                     {
