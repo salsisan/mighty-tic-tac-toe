@@ -22,7 +22,9 @@ namespace Mighty_Tick_Tac_Toe
         SUCCESS_BOARD_DRAW_GAME_ON,
         SUCCESS_BOARD_DRAW_GAME_WON,
         SUCCESS_BOARD_DRAW_GAME_DRAW,
-        SUCCESS_BOARD_DRAW_GAME_LOST
+        SUCCESS_BOARD_DRAW_GAME_LOST,
+
+        GAME_OVER
     }
 
     public class GameEngine
