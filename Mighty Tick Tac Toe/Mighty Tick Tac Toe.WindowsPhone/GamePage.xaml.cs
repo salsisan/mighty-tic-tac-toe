@@ -265,6 +265,7 @@ namespace Mighty_Tick_Tac_Toe
 
             TranslateToVirtualGridCoord(ref gr);
             TranslateToVirtualGridCoord(ref gc);
+            System.Diagnostics.Debug.WriteLine("Tapped cell: " + gr + ", " + gc);
 
             //if (gr == 0 && gc == 0)
             //{
