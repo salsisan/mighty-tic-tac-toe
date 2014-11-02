@@ -255,23 +255,30 @@ namespace Mighty_Tick_Tac_Toe
                 )
                 return -1;
 
-            bool isDraw = true;
-
+            bool isFull = true;
+            int wins =0;
+            int loses = 0;
             foreach (int i in Boards)
             {
                 if (i == 0)
                 {
-                    isDraw = false;
-                    break;
+                    isFull = false;
+                }
+                else if (i == 1)
+                {
+                    wins++;
+                }
+                else if (i == -1)
+                {
+                    loses++;
                 }
             }
 
-            if (isDraw)
+            if (isFull)
             {
-                if (Boards[0, 0] + Boards[0, 1] + Boards[0, 2] + Boards[1, 0] + Boards[1, 1] + Boards[1, 2] + Boards[2, 0] + Boards[2, 1] + Boards[2, 2] > 9)
-                    return 20;
-
-                return Boards[0, 0] + Boards[0, 1] + Boards[0, 2] + Boards[1, 0] + Boards[1,1] + Boards[1, 2] + Boards[2, 0] + Boards[2, 1] + Boards[2, 2] > 0 ? 1 : -1;
+                if (wins > loses) return 1;
+                else if (loses > wins) return -1;
+                else return 20;
             }
             else
                 return 0;
