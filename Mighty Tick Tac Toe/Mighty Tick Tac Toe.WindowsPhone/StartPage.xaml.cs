@@ -103,15 +103,23 @@ namespace Mighty_Tick_Tac_Toe
         /// handlers that cannot cancel the navigation request.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             this.navigationHelper.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
             this.navigationHelper.OnNavigatedFrom(e);
         }
 
         #endregion
+
+        void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
+        {
+            e.Handled = true;
+            App.Current.Exit();
+        }
 
         private void singlePlayerBtn_Click(object sender, RoutedEventArgs e)
         {

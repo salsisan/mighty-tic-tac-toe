@@ -57,8 +57,8 @@ namespace Mighty_Tick_Tac_Toe
         GameMode gameMode = GameMode.TwoPlayer;
         int greetingImgWidth = 220;
         int greetingImgHeight = 75;
-        int gameOverImgWidth = 250;
-        int gameOverImgHeight = 125;
+        int gameOverImgWidth = 280;
+        int gameOverImgHeight = 180;
         double greetingDurationSec = 2;
         string[] randomGreetings = new string[] { "awesome", "goodjob", "nicework" };
         bool soundEffectsEnabled = true;
@@ -114,9 +114,9 @@ namespace Mighty_Tick_Tac_Toe
 
             if (Frame.CanGoBack)
             {
-                Frame.GoBack();
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
+                Frame.Navigate(typeof(StartPage));
             }
         }
 
@@ -612,17 +612,9 @@ namespace Mighty_Tick_Tac_Toe
 
         void gameOverImg_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            PopImage(
-                sender as Image,
-                1,
-                0,
-                1,
-                0,
-                0,
-                0.5 * gameOverImgWidth,
-                0,
-                0.5 * gameOverImgHeight,
-                popOutEasing);
+            NavigationParams parameters = new NavigationParams();
+            parameters.mode = gameMode;
+            this.Frame.Navigate(typeof(GamePage), parameters);
         }
 
         private async void ShowRandomGreeting()
