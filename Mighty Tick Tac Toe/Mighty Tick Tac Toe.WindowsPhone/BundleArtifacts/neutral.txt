@@ -1,0 +1,3 @@
+MainPackage=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.WindowsPhone\bin\Release\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_Bundle\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_AnyCPU.appx
+SymbolPackage=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.WindowsPhone\AppPackages\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_Test\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_AnyCPU.appxsym
+ResourcePack=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.WindowsPhone\bin\Release\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_Bundle\Mighty Tick Tac Toe.WindowsPhone_1.1.0.3_scale-140.appx
