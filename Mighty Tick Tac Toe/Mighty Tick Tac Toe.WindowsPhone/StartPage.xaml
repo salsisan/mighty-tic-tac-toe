@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="0,20,0,0">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -54,7 +54,7 @@
             <Button x:Name="MultiplayerBtn" Grid.Row="2" Width="200" Height="60" Content="Multiplayer" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MultiplayerBtn_Click"/>
             <Button x:Name="GameRulesBtn" Grid.Row="3" Width="200" Height="60" Content="Game Rules" HorizontalAlignment="center"  VerticalAlignment="Center" Click="GameRulesBtn_Click" />
             <Button x:Name="StatsBtn" Grid.Row="4" Width="200" Height="60" Content="Hide Game Stats" HorizontalAlignment="Center" Click="StatsBtn_Click" />
-            <Button x:Name="AboutBtn" Grid.Row="9" Width="200" Height="60" Content="About Game" HorizontalAlignment="Center" Click="AboutBtn_Click" FontFamily="Global User Interface" />
+            <Button x:Name="AboutBtn" Grid.Row="9" Width="200" Height="60" Content="About Game" HorizontalAlignment="Center" Click="AboutBtn_Click" />
             <StackPanel x:Name="StatsPanel" Width="Auto" Height="Auto" Grid.Row="5" Grid.RowSpan="4" Visibility="Collapsed" Background="#00000000">
                 <Grid Margin="10">
                     <Grid.Background>

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+        <StackPanel Grid.Row="0" Margin="19,20,0,0">
             <TextBlock Text="About Game" Margin="0,-6.5,0,26.5" FontSize="48" />
         </StackPanel>
 
@@ -47,20 +47,16 @@
               VerticalScrollBarVisibility="Auto"
                            Grid.Row="1" Grid.RowSpan="4">
                 <StackPanel Margin="20,0,20,39">
-                    <TextBlock Text="Authors" FontSize="25" Padding="0,0,0,10" Foreground="Gray" FontFamily="Gadugi" CharacterSpacing="30" />
-                    <TextBlock CharacterSpacing="30" Text="Developed in 2014 by:" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" >
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="#FF363636"/>
-                        </TextBlock.Foreground>
-                    </TextBlock>
+                    <TextBlock Text="Authors" FontSize="25" Padding="0,0,0,10" FontFamily="Gadugi" CharacterSpacing="30" />
+                    <TextBlock CharacterSpacing="30" Padding="0,0,0,10" Text="Developed in 2014 by:" Foreground="#999999" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" />
                     <TextBlock Padding="10,0,0,0" CharacterSpacing="30" Text="Suhib Alsisan" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" />
-                    <HyperlinkButton Padding="20,0,0,10" CharacterSpacing="30" Content="suhib.alsisan@outlook.com" FontSize="14" FontFamily="Gadugi" Foreground="Blue" />
+                    <HyperlinkButton Padding="20,0,0,10" CharacterSpacing="30" Content="suhib.alsisan@outlook.com" NavigateUri="mailto:suhib.alsisan@outlook.com" FontSize="14" FontFamily="Gadugi" Foreground="Blue" />
                     <TextBlock Padding="10,0,0,0" CharacterSpacing="30" Text="Yasser Elsayed" TextWrapping="WrapWholeWords" FontSize="18" FontFamily="Gadugi" />
-                    <HyperlinkButton Padding="20,0,0,10" CharacterSpacing="30" Content="yasser.ebrahim@live.com" FontSize="14" FontFamily="Gadugi" Foreground="Blue"/>
+                    <HyperlinkButton Padding="20,0,0,10" CharacterSpacing="30" Content="yasser.ebrahim@live.com" NavigateUri="mailto:yasser.ebrahim@live.com" FontSize="14" FontFamily="Gadugi" Foreground="Blue"/>
                     
                 </StackPanel>
             </ScrollViewer>
-            <Button  Width="200" Height="60" HorizontalAlignment="Center"  Grid.Row="9" Grid.RowSpan="2" CharacterSpacing="30" Content="Rate/Review!" FontSize="15"  Tapped="TextBlock_Tapped"/>
+            <Button  Width="200" Height="60" HorizontalAlignment="Center"  Grid.Row="9" Grid.RowSpan="2" CharacterSpacing="30" Content="Rate/Review!" Tapped="TextBlock_Tapped"/>
         </Grid>
     </Grid>
 </Page>

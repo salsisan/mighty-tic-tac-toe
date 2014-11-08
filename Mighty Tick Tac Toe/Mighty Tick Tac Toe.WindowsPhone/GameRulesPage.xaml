@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+        <StackPanel Grid.Row="0" Margin="19,20,0,0">
             <TextBlock Text="Game Rules" Margin="0,-6.5,0,26.5" FontSize="48" />
         </StackPanel>
 
