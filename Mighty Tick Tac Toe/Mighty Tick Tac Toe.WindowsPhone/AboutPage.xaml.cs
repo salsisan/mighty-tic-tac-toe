@@ -46,5 +46,14 @@ namespace Mighty_Tick_Tac_Toe
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
         }
+
+        private async void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=appA1E4E8C3-C0AD-44FC-B070-C54F379D9450"));
+            // "zune:reviewapp"
+            // "zune:reviewapp?appid=appA1E4E8C3-C0AD-44FC-B070-C54F379D9450"
+            // "ms-windows-store:REVIEW?PFN=A1E4E8C3-C0AD-44FC-B070-C54F379D9450_75cr2b68sm664"
+
+        }
     }
 }

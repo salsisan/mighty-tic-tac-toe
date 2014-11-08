@@ -54,9 +54,12 @@
             <Button x:Name="MultiplayerBtn" Grid.Row="2" Width="200" Height="60" Content="Multiplayer" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MultiplayerBtn_Click"/>
             <Button x:Name="GameRulesBtn" Grid.Row="3" Width="200" Height="60" Content="Game Rules" HorizontalAlignment="center"  VerticalAlignment="Center" Click="GameRulesBtn_Click" />
             <Button x:Name="StatsBtn" Grid.Row="4" Width="200" Height="60" Content="Show Game Stats" HorizontalAlignment="Center" Click="StatsBtn_Click" />
-            <Button x:Name="AboutBtn" Grid.Row="9" Width="200" Height="60" Content="About Game" HorizontalAlignment="Center" Click="AboutBtn_Click" />
-            <StackPanel x:Name="StatsPanel" Width="Auto" Height="Auto" Grid.Row="5" Grid.RowSpan="4" Visibility="Collapsed">
-                <Grid Margin="10" Background="#222222">
+            <Button x:Name="AboutBtn" Grid.Row="9" Width="200" Height="60" Content="About Game" HorizontalAlignment="Center" Click="AboutBtn_Click" FontFamily="Global User Interface" />
+            <StackPanel x:Name="StatsPanel" Width="Auto" Height="Auto" Grid.Row="5" Grid.RowSpan="4" Visibility="Collapsed" Background="#00000000">
+                <Grid Margin="10">
+                    <Grid.Background>
+                        <SolidColorBrush/>
+                    </Grid.Background>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="30"/>
@@ -68,16 +71,16 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Wins:" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Losses:" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Draws:" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Curret Win Streak:" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Longest Win Streak:" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="0" Name="StatsWinsTxt" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="1" Grid.Column="1" Text="0" Name="StatsLossesTxt" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" Text="0" Name="StatsDrawsTxt" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="3" Grid.Column="1" Text="0" Name="StatsWinStreakTxt" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBlock Grid.Row="4" Grid.Column="1" Text="0" Name="StatsLongestWinStreakTxt" Foreground="#FFDADADA" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Wins:" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Losses:" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Draws:" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Curret Win Streak:" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Longest Win Streak:" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="0" Name="StatsWinsTxt" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="0" Name="StatsLossesTxt" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="0" Name="StatsDrawsTxt" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="0" Name="StatsWinStreakTxt" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="0" Name="StatsLongestWinStreakTxt" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
                 <Button x:Name="ResetStatsBtn" Width="200" Height="60" Content="Reset Stats" HorizontalAlignment="Center" Click="ResetStatsBtn_Click" />
             </StackPanel>
