@@ -95,25 +95,25 @@ namespace Mighty_Tick_Tac_Toe
 
         async void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
-            e.Handled = true;
-            // if at least one move has been played, and the game is still running
-            if (lastMoveCol > -1 && lastMoveState != MoveState.GAME_OVER)
-            {
-                var dialog = new Windows.UI.Popups.MessageDialog("Are you sure you want to leave this game? Your progress will be lost!");
-                bool? exitSelected = null;
-                dialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler((cmd) => exitSelected = true)));
-                dialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler((cmd) => exitSelected = false)));
-                await dialog.ShowAsync();
-
-                if (exitSelected.HasValue && !exitSelected.Value)
-                {
-                    e.Handled = true;
-                    return;
-                }
-            }
-
             if (Frame.CanGoBack)
             {
+                // if at least one move has been played, and the game is still running
+                if (lastMoveCol > -1 && lastMoveState != MoveState.GAME_OVER)
+                {
+                    var dialog = new Windows.UI.Popups.MessageDialog("Are you sure you want to leave this game? Your progress will be lost!");
+                    bool? exitSelected = null;
+                    dialog.Commands.Add(new UICommand("Exit", new UICommandInvokedHandler((cmd) => exitSelected = true)));
+                    dialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler((cmd) => exitSelected = false)));
+                    e.Handled = true;
+                    await dialog.ShowAsync();
+
+                    if (exitSelected.HasValue && !exitSelected.Value)
+                    {
+                        e.Handled = true;
+                        return;
+                    }
+                }
+
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
                 Frame.Navigate(typeof(StartPage));

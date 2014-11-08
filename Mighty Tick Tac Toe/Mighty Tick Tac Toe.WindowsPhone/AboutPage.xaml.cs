@@ -32,9 +32,9 @@ namespace Mighty_Tick_Tac_Toe
         {
             if (Frame.CanGoBack)
             {
-                Frame.GoBack();
                 //Indicate the back button press is handled so the app does not exit
                 e.Handled = true;
+                Frame.Navigate(typeof(StartPage));
             }
         }
 
@@ -45,6 +45,11 @@ namespace Mighty_Tick_Tac_Toe
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
         }
 
         private async void TextBlock_Tapped(object sender, TappedRoutedEventArgs e)
