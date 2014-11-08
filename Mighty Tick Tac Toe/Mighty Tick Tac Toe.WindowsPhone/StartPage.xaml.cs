@@ -54,6 +54,17 @@ namespace Mighty_Tick_Tac_Toe
             StatsDrawsTxt.Text = draws.ToString();
             StatsWinStreakTxt.Text = winStreak.ToString();
             StatsLongestWinStreakTxt.Text = longestWinStreak.ToString();
+
+            if (GameEngine.GetStatsPanelVisibility())
+            {
+                StatsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                StatsBtn.Content = "Hide Game Stats";
+            }
+            else
+            {
+                StatsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatsBtn.Content = "Show Game Stats";
+            }
         }
 
         /// <summary>
@@ -171,6 +182,7 @@ namespace Mighty_Tick_Tac_Toe
                 StatsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 StatsBtn.Content = "Show Game Stats";
             }
+            GameEngine.SetStatsPanelVisibility(StatsPanel.Visibility == Windows.UI.Xaml.Visibility.Visible);
         }
 
         private void ResetStatsBtn_Click(object sender, RoutedEventArgs e)

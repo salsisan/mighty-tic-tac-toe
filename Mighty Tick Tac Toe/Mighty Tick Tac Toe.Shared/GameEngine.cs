@@ -338,6 +338,23 @@ namespace Mighty_Tick_Tac_Toe
             longestWinStreak = int.Parse(data.Values["longestWinStreak"].ToString());
         }
 
+        public static bool GetStatsPanelVisibility()
+        {
+            var data = ApplicationData.Current.LocalSettings;
+            if (data.Values["statsPanelVisibility"] == null)
+            {
+                data.Values["statsPanelVisibility"] = true.ToString();
+            }
+
+            return bool.Parse(data.Values["statsPanelVisibility"].ToString());
+        }
+
+        public static void SetStatsPanelVisibility(bool state)
+        {
+            var data = ApplicationData.Current.LocalSettings;
+            data.Values["statsPanelVisibility"] = state.ToString();
+        }
+
         public void UpdateStats(MoveState lastMoveState)
         {
             var data = ApplicationData.Current.LocalSettings;
