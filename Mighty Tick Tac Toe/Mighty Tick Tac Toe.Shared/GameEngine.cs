@@ -8,6 +8,14 @@ using Windows.Storage;
 
 namespace Mighty_Tick_Tac_Toe
 {
+    enum GameMode
+    {
+        TwoPlayer,
+        AI_LVL_1,
+        AI_LVL_2,
+        AI_LVL_3
+    }
+
     public enum MoveState
     {
         ERROR_CELL_FULL,

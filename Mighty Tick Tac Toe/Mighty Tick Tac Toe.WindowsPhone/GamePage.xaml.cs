@@ -24,13 +24,7 @@ using Windows.UI.Xaml.Shapes;
 
 namespace Mighty_Tick_Tac_Toe
 {
-    enum GameMode
-    {
-        TwoPlayer,
-        AI_LVL_1,
-        AI_LVL_2,
-        AI_LVL_3
-    }
+    
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>

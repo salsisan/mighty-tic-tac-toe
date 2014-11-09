@@ -6,18 +6,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="Wheat">
 
-    <Grid Margin="20" Height="350" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="Transparent">
-        <Border BorderBrush="White" BorderThickness="2,2,2,2" Grid.Row="2" Grid.Column="2" Canvas.ZIndex="1"  />
-        <Grid Name="GameGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+    <Grid Name="CanvasGrid" Margin="20, 0, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ProgressBar Name="turnProgressBar" Width="50" Height="10" Visibility="Collapsed" VerticalAlignment="Center" IsIndeterminate="True" Grid.ColumnSpan="2" Grid.Row="0" />
+        <Image Name="AudioIcon" Grid.Row="0" Grid.Column="1" Margin="20" HorizontalAlignment="Right" VerticalAlignment="Top" Height="40" Width="40" Source="Assets/AudioOn.png" Tapped="AudioIcon_Tapped" />
+        <Grid Name="GameGrid" Height="Auto" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Grid.ColumnSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition Height="5" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition Height="5" />
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
@@ -26,14 +39,19 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition Width="5" />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition Width="5" />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
         </Grid>
-        <TextBox Name="StatusText" HorizontalAlignment="Left" Margin="19,393,0,-178" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Top" Width="308" Height="135"/>
+        <Image Name="LastTurnImg" Visibility="Visible" Source="Assets/lastTurn.png" Grid.Row="3" Height="60" Width="60" VerticalAlignment="Center" Tapped="TurnImg_Tapped" HorizontalAlignment="Center" Grid.Column="1" />
+        <Image Name="TurnImg" Source="Assets/xturn.png" Grid.Row="3" Height="50" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="-200,0,0,0" />
+        <TextBox Name="StatusText" Visibility="Collapsed" Grid.Row="3" Background="Black" Foreground="White" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Play..." VerticalAlignment="Bottom" Width="360" Height="40" Grid.ColumnSpan="2"/>
+        <Image Source="Assets/home.png" Width="70" Grid.Row="3" HorizontalAlignment="Left" Margin="20,0,0,0" Tapped="HomeIcon_Tapped"/>
     </Grid>
 </Page>
