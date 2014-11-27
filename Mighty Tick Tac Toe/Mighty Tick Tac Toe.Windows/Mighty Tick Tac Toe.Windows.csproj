@@ -15,9 +15,12 @@
     <FileAlignment>512</FileAlignment>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Mighty Tick Tac Toe.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>Mighty Tick Tac Toe.Windows_StoreKey.pfx</PackageCertificateKeyFile>
     <NuGetPackageImportStamp>602baae6</NuGetPackageImportStamp>
     <ExpressionBlendVersion>12.0.50716.0</ExpressionBlendVersion>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>AF4A80547AC6C9104FD39AAEE1D56DC9AC97A1C3</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -25,7 +28,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE;WINDOWS_APP;SAFESEH;DYNAMICBASE;NXCOMPAT;APPCONTAINER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -129,6 +132,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="Mighty Tick Tac Toe.Windows_StoreKey.pfx" />
     <None Include="Mighty Tick Tac Toe.Windows_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -151,7 +155,6 @@
     <Content Include="Assets\newGame.png" />
     <Content Include="Assets\o.png" />
     <Content Include="Assets\oturn.png" />
-    <Content Include="Assets\SharpDX-SDK-2.6.2.exe" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-140.png" />
     <Content Include="Assets\SmallLogo.scale-180.png" />
@@ -192,6 +195,7 @@
     <Content Include="Assets\x.png" />
     <Content Include="Assets\xturn.png" />
     <Content Include="Common\ReadMe.txt" />
+    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="AboutPage.xaml">

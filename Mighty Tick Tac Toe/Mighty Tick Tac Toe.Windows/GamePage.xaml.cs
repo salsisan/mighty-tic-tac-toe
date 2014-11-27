@@ -530,7 +530,7 @@ namespace Mighty_Tick_Tac_Toe
 
             Canvas.SetZIndex(newGameImg, 100);
             CanvasGrid.Children.Add(newGameImg);
-            Grid.SetRow(newGameImg, 2);
+            Grid.SetRow(newGameImg, 3);
             Grid.SetColumnSpan(newGameImg, 2);
             Animations.PopUIElement(
                 newGameImg,
