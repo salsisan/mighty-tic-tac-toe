@@ -76,10 +76,10 @@ namespace Mighty_Tick_Tac_Toe
         public GamePage()
         {
             this.InitializeComponent();
-            wavePlayer.AddWave("playerX", "Assets/Sounds/Tap1.wav");
-            wavePlayer.AddWave("playerO", "Assets/Sounds/Tap2.wav");
-            wavePlayer.AddWave("boardWon", "Assets/Sounds/boardWon.wav");
-            wavePlayer.AddWave("gameWon", "Assets/Sounds/gameWon.wav");
+            wavePlayer.AddWave("playerX", "Sounds\\Tap1.wav");
+            wavePlayer.AddWave("playerO", "Sounds\\Tap2.wav");
+            wavePlayer.AddWave("boardWon", "Sounds\\boardWon.wav");
+            wavePlayer.AddWave("gameWon", "Sounds\\gameWon.wav");
             PaintGrid();
         }
 

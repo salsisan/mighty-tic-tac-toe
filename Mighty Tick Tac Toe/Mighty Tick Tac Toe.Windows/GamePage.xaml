@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="Wheat">
 
-    <Grid Name="CanvasGrid" Margin="20, 0, 20, 20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
+    <Grid Name="CanvasGrid" Margin="0, 0, 0, 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="Auto" />

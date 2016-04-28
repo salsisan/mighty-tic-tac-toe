@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
   <Identity Name="48999YasserElsayed.MightyTicTacToe" Publisher="CN=2632852D-AC3F-4114-A680-4D43F4202B65" Version="1.1.0.6" />
-  <mp:PhoneIdentity PhoneProductId="f14531fe-bd49-4463-95ba-abd524240987" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Mighty Tic Tac Toe</DisplayName>
     <PublisherDisplayName>S. Alsisan &amp; Y. Elsayed</PublisherDisplayName>

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mighty Tic Tac Toe", "Mighty Tic Tac Toe", "{33CC7823-1869-41B0-AF7D-5F0EC1FE9F04}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Mighty Tic Tac Toe.Shared", "Mighty Tick Tac Toe\Mighty Tick Tac Toe.Shared\Mighty Tic Tac Toe.Shared.shproj", "{1232DE33-EBDA-456B-B820-452C54CB3769}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mighty Tic Tac Toe.Windows", "Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\Mighty Tic Tac Toe.Windows.csproj", "{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Mighty Tick Tac Toe\Mighty Tick Tac Toe.Shared\Mighty Tick Tac Toe.Shared.projitems*{1232de33-ebda-456b-b820-452c54cb3769}*SharedItemsImports = 13
+		Mighty Tick Tac Toe\Mighty Tick Tac Toe.Shared\Mighty Tick Tac Toe.Shared.projitems*{ebbae3cd-0ccb-4acd-b855-137cd21738c1}*SharedItemsImports = 4
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|Any CPU.Build.0 = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|Any CPU.Deploy.0 = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|ARM.Build.0 = Debug|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x64.ActiveCfg = Debug|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x64.Build.0 = Debug|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x64.Deploy.0 = Debug|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x86.ActiveCfg = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x86.Build.0 = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Debug|x86.Deploy.0 = Debug|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|Any CPU.ActiveCfg = Release|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|ARM.ActiveCfg = Release|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|ARM.Build.0 = Release|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|ARM.Deploy.0 = Release|ARM
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x64.ActiveCfg = Release|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x64.Build.0 = Release|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x64.Deploy.0 = Release|x64
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x86.ActiveCfg = Release|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x86.Build.0 = Release|x86
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1232DE33-EBDA-456B-B820-452C54CB3769} = {33CC7823-1869-41B0-AF7D-5F0EC1FE9F04}
+		{EBBAE3CD-0CCB-4ACD-B855-137CD21738C1} = {33CC7823-1869-41B0-AF7D-5F0EC1FE9F04}
+	EndGlobalSection
+EndGlobal
