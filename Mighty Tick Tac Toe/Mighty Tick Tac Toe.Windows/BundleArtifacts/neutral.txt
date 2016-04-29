@@ -1,4 +1,0 @@
-MainPackage=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\bin\Release\Mighty Tick Tac Toe.Windows_1.1.0.6_Bundle\Mighty Tick Tac Toe.Windows_1.1.0.6_AnyCPU.appx
-SymbolPackage=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\AppPackages\Mighty Tick Tac Toe.Windows_1.1.0.6_Test\Mighty Tick Tac Toe.Windows_1.1.0.6_AnyCPU.appxsym
-ResourcePack=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\bin\Release\Mighty Tick Tac Toe.Windows_1.1.0.6_Bundle\Mighty Tick Tac Toe.Windows_1.1.0.6_scale-140.appx
-ResourcePack=C:\Users\Administrator\Documents\Projects\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\bin\Release\Mighty Tick Tac Toe.Windows_1.1.0.6_Bundle\Mighty Tick Tac Toe.Windows_1.1.0.6_scale-180.appx

@@ -1,8 +1,0 @@
-MainPackage=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\bin\ARM\Release\Upload\Mighty Tic Tac Toe.Windows_1.1.7.0_ARM.appx
-SymbolPackage=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\AppPackages\Mighty Tic Tac Toe.Windows_1.1.7.0\Mighty Tic Tac Toe.Windows_1.1.7.0_ARM.appxsym
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-100.appx
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-125.appx
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-140.appx
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-150.appx
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-180.appx
-ResourcePack=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\_scale-240.appx
