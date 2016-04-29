@@ -1,0 +1,2 @@
+MainPackage=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\bin\x64\Release\Mighty Tic Tac Toe.Windows_1.1.7.0_x64.appx
+SymbolPackage=E:\work\MightyTTT\Mighty Tick Tac Toe\Mighty Tick Tac Toe.Windows\AppPackages\Mighty Tic Tac Toe.Windows_1.1.7.0_Test\Mighty Tic Tac Toe.Windows_1.1.7.0_x64.appxsym
